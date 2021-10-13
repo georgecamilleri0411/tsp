@@ -1,0 +1,1 @@
+public class tsp {	public static void main(String[] args) {		// fileReader myReader = new fileReader();		fileReader.readFile("/Users/George/tmp/tsp_train1.txt");	}}
