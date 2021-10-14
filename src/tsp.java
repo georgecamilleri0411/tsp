@@ -1,1 +1,1 @@
-public class tsp {	public static void main(String[] args) {		// fileReader myReader = new fileReader();		fileReader.readFile("/Users/George/tmp/tsp_train1.txt");	}}
+public class tsp {	public static void main(String[] args) {		FileReader.readFile("trainfile3.txt");		// System.out.println (utilities.calculateEuclideanDistance(2,1,5,5));	}}
