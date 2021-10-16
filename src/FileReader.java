@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class FileReader {
 
 	// Array to store the coordinates
-	static ArrayList<City> cities = new ArrayList<>();
+	public static ArrayList<City> cities = new ArrayList<>();
 
 	// Reads the file passed as argument and stores it in an array of int with 3 dimensions
 	public static void readFile(String filePath) {
@@ -44,6 +44,7 @@ public class FileReader {
 			// Splits the string into a String array, then loops through it to populate the Integer array
 			String[] line = dataLine.split(" ");
 			int[] output = new int[line.length];
+
 			for (int i = 0; i < line.length; i++) {
 				if (isNumeric(line[i])) {
 					output[i] = Integer.parseInt(line[i]);
@@ -51,6 +52,7 @@ public class FileReader {
 					output[i] = Integer.parseInt(null);
 				}
 			}
+
 			return output;
 		} catch (Exception e) {
 			System.out.println("An error has occurred - " + e.getMessage());
