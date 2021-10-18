@@ -1,4 +1,5 @@
 import java.lang.Math;
+import java.util.ArrayList;
 
 public class Utilities {
 
@@ -14,4 +15,21 @@ public class Utilities {
 			return 0;
 		}
 	}
+
+	/*
+	Finds the shortest path between the cities list using brute force. Path must
+	start and end in the first element of the list.
+
+	public static int[] getShortestPath_bruteForce(ArrayList<City> cities) {
+		try {
+			for (City c1 : cities) {
+
+			}
+		} catch (Exception e) {
+			System.out.println("An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+	}
+	*/
 }
