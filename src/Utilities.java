@@ -3,6 +3,9 @@ import java.util.ArrayList;
 
 public class Utilities {
 
+	// Array to store the coordinates
+	public static ArrayList<City> cities = new ArrayList<>();
+
 	/*
 	Calculates the Euclidean distance between 2 points on a plane by using the Pythagorean theorem
 	 */
