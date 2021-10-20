@@ -2,32 +2,18 @@ import java.util.ArrayList;
 
 public class City {
 
+	private boolean isStart = false;
 	private int index;
 	private int x;
 	private int y;
-	private static ArrayList<Integer> cityTo = new ArrayList();
-	private static ArrayList<Double> eDistance = new ArrayList();
+
+	// Default constructor
+	public City () {}
 
 	public City (int index, int x, int y) {
 		this.index = index;
 		this.x = x;
 		this.y = y;
-	}
-
-	public static void setCityTo(ArrayList<Integer> cityTo) {
-		City.cityTo = cityTo;
-	}
-
-	public static void seteDistance(ArrayList<Double> eDistance) {
-		City.eDistance = eDistance;
-	}
-
-	public static ArrayList<Integer> getCityTo() {
-		return cityTo;
-	}
-
-	public static ArrayList<Double> geteDistance() {
-		return eDistance;
 	}
 
 	public int getIndex() {
@@ -49,24 +35,22 @@ public class City {
 		this.y = y;
 	}
 
-	/*
-Calculates the distances between all the cities in the ArrayList
- */
-	public void setDistances() {
-		try{
-			int c1 = this.getIndex();
-			int x1 = this.getX();
-			int y1 = this.getY();
-			for (City cTo : Utilities.cities) {
-				if (c1 != cTo.getIndex()) {
-					this.getCityTo().add (cTo.getIndex());
-					this.geteDistance().add (Utilities.getEuclideanDistance(x1, y1, cTo.getX(), cTo.getY()));
-				}
-			}
+	public boolean isStart() {
+		return isStart;
+	}
+
+	public void setStart(boolean start) {
+		isStart = start;
+	}
+
+	// Returns the Euclidean distance from this city ot the one passed as an argument
+	public double distanceToCity (City toCity) {
+		try {
+			return Utilities.getEuclideanDistance(getX(), getY(), toCity.getX(), toCity.getY());
 		} catch (Exception e) {
 			System.out.println("An error has occurred - " + e.getMessage());
 			e.printStackTrace();
+			return 0;
 		}
 	}
-
 }

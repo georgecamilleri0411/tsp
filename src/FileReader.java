@@ -14,6 +14,13 @@ public class FileReader {
 				Utilities.cities.add(new City(lineData[0], lineData[1], lineData[2]));
 			}
 			fileReader.close();
+
+			// Set the distance from all cities to all other cities
+			long start = System.nanoTime();
+			Utilities.setDistances();
+			long end = System.nanoTime();
+			System.out.println ("Runtime: " + (end - start) + " nanoseconds");
+
 		} catch (FileNotFoundException e) {
 			System.out.println("An error has occurred - " + e.getMessage());
 			e.printStackTrace();
