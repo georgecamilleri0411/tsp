@@ -1,5 +1,6 @@
 import java.lang.Math;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Utilities {
 
@@ -15,9 +16,9 @@ public class Utilities {
 	}
 
 	// Get the number of different permutations possible
-	public int getNumOfPermutations() {
-		int permutations = 0;
-		for (int i = 1; i < cities.size(); i++) {
+	public static int getNumOfPermutations(int numOfCities) {
+		int permutations = 1;
+		for (int i = 1; i < (numOfCities - 1); i++) {
 			permutations += (i * permutations);
 		}
 		return permutations;
@@ -55,15 +56,19 @@ public class Utilities {
 	Path must start and end in the first element of the list.
 	*/
 	//public static int[] getShortestPath_bruteForce() {
-	public static int getShortestPath_bruteForce() {
+	public static int solveTSP_bruteForce() {
 		try {
 			int minDistance;
+			int[] totalDistance = new int[getNumOfPermutations(cities.size())];
+			char[] voyage = new char[getNumOfPermutations(cities.size())];
+
+			return 0;
 
 			/*
 			// Loop through the Distances ArrayList for each of the elements departing from City 1
 			for (int f = 0; f < distances.size(); f++) {
 				if (distances.get(f).getFromCity() == 1) {
-					// Loop through the other elements
+					// Loop through the other elements - needs dev and test
 				}
 			}
 			return 0;
@@ -76,4 +81,54 @@ public class Utilities {
 		}
 	}
 
+	/*
+	Generates all permutations of the integer array passed as argument
+	 */
+	public static void generatePermutations (int[] input) {
+
+		// Initialise an integer array for the (number of cities - 1), since city 1 will always start
+		int[] sequence = new int[cities.size() - 1];
+
+		// Initialise the sequence array elements to 0
+		for (int i = 0; i < sequence.length; i++) {
+			sequence[i] = 0;
+		}
+
+		// Output the initial sequence
+		displaySequence (input);
+
+		// Use iterations to swap array elements
+		int i = 0;
+		while (i < sequence.length) {
+			if (sequence[i] < i) {
+				swap (input, i % 2 == 0 ? 0 : sequence[i], i);
+				// CONTINUE HERE : calculate the total distance for each sequence
+				displaySequence (input);
+				sequence[i]++;
+				i = 0;
+			} else {
+				sequence[i] = 0;
+				i++;
+			}
+		}
+	}
+
+	/*
+	Swaps two elements of the input array with each other
+	 */
+	private static void swap(int[] input, int e1, int e2) {
+		int tmp = input[e1];
+		input[e1] = input[e2];
+		input[e2] = tmp;
+	}
+
+	/*
+	Outputs the array to stdout in sequence
+	 */
+	private static void displaySequence(int[] input) {
+		for (int i = 0; i < input.length; i++) {
+			System.out.print(input[i] + " ");
+		}
+		System.out.println();
+	}
 }

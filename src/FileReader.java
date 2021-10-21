@@ -9,9 +9,21 @@ public class FileReader {
 		try {
 			File textFile = new File(filePath);
 			Scanner fileReader = new Scanner(textFile);
+			boolean dupl = false;
 			while (fileReader.hasNextLine()) {
 				int[] lineData = parseLine(fileReader.nextLine());
-				Utilities.cities.add(new City(lineData[0], lineData[1], lineData[2]));
+
+				// Check for duplicate cities
+				for (City c : Utilities.cities) {
+					dupl = false;
+					if ((c.getX() == lineData[1]) && (c.getY() == lineData[2])) {
+						dupl = true;
+						break;
+					}
+				}
+				if (!dupl) {
+					Utilities.cities.add(new City(lineData[0], lineData[1], lineData[2]));
+				}
 			}
 			fileReader.close();
 
