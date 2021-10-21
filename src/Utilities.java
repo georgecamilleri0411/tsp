@@ -63,7 +63,7 @@ public class Utilities {
 			// Loop through the Distances ArrayList for each of the elements departing from City 1
 			for (int f = 0; f < distances.size(); f++) {
 				if (distances.get(f).getFromCity() == 1) {
-					// Loop through the other elements
+					// Loop through the other elements - needs dev and test
 				}
 			}
 			return 0;
