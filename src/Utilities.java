@@ -15,9 +15,9 @@ public class Utilities {
 	}
 
 	// Get the number of different permutations possible
-	public int getNumOfPermutations() {
-		int permutations = 0;
-		for (int i = 1; i < cities.size(); i++) {
+	public static int getNumOfPermutations(int numOfCities) {
+		int permutations = 1;
+		for (int i = 1; i < (numOfCities - 1); i++) {
 			permutations += (i * permutations);
 		}
 		return permutations;
@@ -58,6 +58,7 @@ public class Utilities {
 	public static int getShortestPath_bruteForce() {
 		try {
 			int minDistance;
+			return 0; // TO REMOVE
 
 			/*
 			// Loop through the Distances ArrayList for each of the elements departing from City 1
