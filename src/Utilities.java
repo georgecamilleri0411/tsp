@@ -10,6 +10,9 @@ public class Utilities {
 	// ArrayList to store the distance between each coordinates
 	public static ArrayList<Distance> distances = new ArrayList<>();
 
+	// Array to store the different permutations
+	public static int[][] permutations = new int[getNumOfPermutations(cities.size())][(getNumOfPermutations(cities.size()) + 1)];
+
 	// Get the number of voyages the salesman must make to traverse all cities
 	public int getNumOfVoyages() {
 		return cities.size();
@@ -58,7 +61,7 @@ public class Utilities {
 	//public static int[] getShortestPath_bruteForce() {
 	public static int solveTSP_bruteForce() {
 		try {
-			int minDistance;
+			int minDistance = -1;
 			int[] totalDistance = new int[getNumOfPermutations(cities.size())];
 			char[] voyage = new char[getNumOfPermutations(cities.size())];
 
@@ -86,30 +89,56 @@ public class Utilities {
 	 */
 	public static void generatePermutations (int[] input) {
 
+//		permutations = new int[getNumOfPermutations(cities.size())][(getNumOfPermutations(cities.size()) + 1)];
+		permutations = new int[(getNumOfPermutations(cities.size()) + 1)][getNumOfPermutations(cities.size())];
+
+		// Permutations counter
+		int p = 0;
+
 		// Initialise an integer array for the (number of cities - 1), since city 1 will always start
 		int[] sequence = new int[cities.size() - 1];
 
-		// Initialise the sequence array elements to 0
-		for (int i = 0; i < sequence.length; i++) {
-			sequence[i] = 0;
+		/*
+		Add the values in their initial order in array input
+		 */
+		// Starting with the first city (i.e. starting point)
+		permutations[p][0] = cities.get(0).getIndex();
+		// Loop through the input array and populate the input array
+		for (int ct = 0; ct < input.length; ct++) {
+			permutations[p][(ct + 1)] = input[ct];
 		}
-
-		// Output the initial sequence
-		displaySequence (input);
+		// Add the last element (city 1 again)
+		permutations[p][(input.length + 1)] = cities.get(0).getIndex();
 
 		// Use iterations to swap array elements
 		int i = 0;
 		while (i < sequence.length) {
 			if (sequence[i] < i) {
 				swap (input, i % 2 == 0 ? 0 : sequence[i], i);
-				// CONTINUE HERE : calculate the total distance for each sequence
-				displaySequence (input);
+
+				// Add the first element (city 1)
+				permutations[p][0] = cities.get(0).getIndex();
+				// Add the values in array input
+				for (int ct = 0; ct < input.length; ct++) {
+					permutations[p][(ct + 1)] = input[ct];
+				}
+				// Add the last element (city 1 again)
+				permutations[p][(input.length + 1)] = cities.get(0).getIndex();
+
+				// TEST START
+				for (int x = 0; x <= (input.length + 1); x++) {
+					System.out.println (p + "." + x + " : " + permutations[p][x]);
+				}
+				// TEST END
+
 				sequence[i]++;
 				i = 0;
+				p = 0;
 			} else {
 				sequence[i] = 0;
 				i++;
 			}
+			p++;
 		}
 	}
 
