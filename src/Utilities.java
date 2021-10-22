@@ -55,33 +55,22 @@ public class Utilities {
 	}
 
 	/*
-	Finds the shortest path between the cities list using brute force, using the Distances ArrayList.
-	Path must start and end in the first element of the list.
+	Retrieves the distance between two cities from the distances ArrayList
 	*/
-	//public static int[] getShortestPath_bruteForce() {
-	public static int solveTSP_bruteForce() {
+	public static double getDistance(int from, int to) {
 		try {
-			int minDistance = -1;
-			int[] totalDistance = new int[getNumOfPermutations(cities.size())];
-			char[] voyage = new char[getNumOfPermutations(cities.size())];
-
-			return 0;
-
-			/*
-			// Loop through the Distances ArrayList for each of the elements departing from City 1
-			for (int f = 0; f < distances.size(); f++) {
-				if (distances.get(f).getFromCity() == 1) {
-					// Loop through the other elements - needs dev and test
+			for (int d = 0; d < distances.size(); d++) {
+				if ((distances.get(d).getFromCity() == from) && distances.get(d).getToCity() == to) {
+					return distances.get(d).getDistance();
 				}
+				return 0;
 			}
-			return 0;
-
-			 */
 		} catch (Exception e) {
 			System.out.println("An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return 0;
 		}
+		return 0;
 	}
 
 	/*
@@ -89,14 +78,13 @@ public class Utilities {
 	 */
 	public static void generatePermutations (int[] input) {
 
-//		permutations = new int[getNumOfPermutations(cities.size())][(getNumOfPermutations(cities.size()) + 1)];
-		permutations = new int[(getNumOfPermutations(cities.size()) + 1)][getNumOfPermutations(cities.size())];
-
-		// Permutations counter
-		int p = 0;
+		permutations = new int[getNumOfPermutations(cities.size())][(cities.size() + 1)];
 
 		// Initialise an integer array for the (number of cities - 1), since city 1 will always start
 		int[] sequence = new int[cities.size() - 1];
+
+		// Permutations counter
+		int p = 0;
 
 		/*
 		Add the values in their initial order in array input
@@ -110,35 +98,36 @@ public class Utilities {
 		// Add the last element (city 1 again)
 		permutations[p][(input.length + 1)] = cities.get(0).getIndex();
 
+		// The first permutation (default sequence) is ready. Increment counter
+		p++;
+
 		// Use iterations to swap array elements
 		int i = 0;
 		while (i < sequence.length) {
 			if (sequence[i] < i) {
 				swap (input, i % 2 == 0 ? 0 : sequence[i], i);
 
-				// Add the first element (city 1)
-				permutations[p][0] = cities.get(0).getIndex();
-				// Add the values in array input
-				for (int ct = 0; ct < input.length; ct++) {
-					permutations[p][(ct + 1)] = input[ct];
-				}
-				// Add the last element (city 1 again)
-				permutations[p][(input.length + 1)] = cities.get(0).getIndex();
+				if (p < permutations.length) {
+					// Add the first element (city 1)
+					permutations[p][0] = cities.get(0).getIndex();
+					// Add the values in permutations input
+					for (int ct = 0; ct < input.length; ct++) {
+						permutations[p][(ct + 1)] = input[ct];
+					}
+					// Add the last element (city 1 again)
+					permutations[p][(input.length + 1)] = cities.get(0).getIndex();
 
-				// TEST START
-				for (int x = 0; x <= (input.length + 1); x++) {
-					System.out.println (p + "." + x + " : " + permutations[p][x]);
 				}
-				// TEST END
+
+				// Increment the permutations counter
+				p++;
 
 				sequence[i]++;
 				i = 0;
-				p = 0;
 			} else {
 				sequence[i] = 0;
 				i++;
 			}
-			p++;
 		}
 	}
 
@@ -160,4 +149,53 @@ public class Utilities {
 		}
 		System.out.println();
 	}
+
+	/*
+	Finds the shortest path between the cities list using brute force, using the Permutations array.
+	*/
+	//public static int[] getShortestPath_bruteForce() {
+	public static int solveTSP_bruteForce() {
+		try {
+			double minDistance = -1;
+			int minVoyage = -1;
+			double[] voyageDistance = new double[getNumOfPermutations(cities.size())];
+
+			int from = 0;
+			int to = 0;
+			double cityDistance = 0;
+			for (int p = 0; p < permutations.length; p++) {
+				for (int v = 0; v < (cities.size() + 1); v++) {
+					// First iteration - just get the 'from' city
+					if (v == 0) {
+						from = permutations[p][v];
+						voyageDistance[p] = 0;
+					} else {
+						from = to;
+						to = permutations[p][v];
+					 	voyageDistance[p] += getDistance(from, to);
+					}
+				}
+			}
+
+			// Loop through the voyageDistance array to determine the shortest route
+			for (int r = 0; r < voyageDistance.length; r++) {
+				// First iteration, just store the voyage distance
+				if (r == 0) {
+					minDistance = voyageDistance[r];
+					minVoyage = r;
+				} else {
+					if (voyageDistance[r] < minDistance) {
+						minDistance = voyageDistance[r];
+					}
+				}
+			}
+			return minVoyage;
+
+		} catch (Exception e) {
+			System.out.println("An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
 }

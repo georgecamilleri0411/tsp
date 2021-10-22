@@ -28,10 +28,7 @@ public class FileReader {
 			fileReader.close();
 
 			// Set the distance from all cities to all other cities
-			long start = System.nanoTime();
 			Utilities.setDistances();
-			long end = System.nanoTime();
-			System.out.println ("Runtime: " + (end - start) + " nanoseconds");
 
 		} catch (FileNotFoundException e) {
 			System.out.println("An error has occurred - " + e.getMessage());
