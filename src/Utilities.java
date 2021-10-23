@@ -13,6 +13,9 @@ public class Utilities {
 	// Array to store the different permutations
 	public static int[][] permutations = new int[getNumOfPermutations(cities.size())][(getNumOfPermutations(cities.size()) + 1)];
 
+	// Minimum distance (i.e. answer to the TSP)
+	public static double minimumDistance;
+
 	// Get the number of voyages the salesman must make to traverse all cities
 	public int getNumOfVoyages() {
 		return cities.size();
@@ -63,14 +66,13 @@ public class Utilities {
 				if ((distances.get(d).getFromCity() == from) && distances.get(d).getToCity() == to) {
 					return distances.get(d).getDistance();
 				}
-				return 0;
 			}
+			return 0;
 		} catch (Exception e) {
 			System.out.println("An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return 0;
 		}
-		return 0;
 	}
 
 	/*
@@ -160,33 +162,42 @@ public class Utilities {
 			int minVoyage = -1;
 			double[] voyageDistance = new double[getNumOfPermutations(cities.size())];
 
+			System.out.println("Number of permutations: " + voyageDistance.length);
+
 			int from = 0;
 			int to = 0;
 			double cityDistance = 0;
 			for (int p = 0; p < permutations.length; p++) {
-				for (int v = 0; v < (cities.size() + 1); v++) {
+				for (int v = 1; v < (cities.size() + 1); v++) {
 					// First iteration - just get the 'from' city
-					if (v == 0) {
-						from = permutations[p][v];
-						voyageDistance[p] = 0;
+					if (v == 1) {
+						from = permutations[p][0];
+						to = permutations[p][v];
+						voyageDistance[p] = getDistance(from, to);
 					} else {
 						from = to;
 						to = permutations[p][v];
 					 	voyageDistance[p] += getDistance(from, to);
 					}
+					/*
+					System.out.println ("Permutation: " + p + "." + v + " (from " + from + " to " + to
+							+ ") | Voyage distance: " + getDistance(from, to)
+							+ " | Total distance: " + voyageDistance[p]);
+					 */
+					minimumDistance = voyageDistance[p];
 				}
 			}
 
-			// Loop through the voyageDistance array to determine the shortest route
+			/*
+			Loop through the voyageDistance array to determine the shortest route
+			Step 1: set the minDistance and minVoyage to the first element in the voyageDistance array
+			 */
+			minDistance = voyageDistance[0];
+			minVoyage = 0;
 			for (int r = 0; r < voyageDistance.length; r++) {
-				// First iteration, just store the voyage distance
-				if (r == 0) {
+				if (voyageDistance[r] < minDistance) {
 					minDistance = voyageDistance[r];
 					minVoyage = r;
-				} else {
-					if (voyageDistance[r] < minDistance) {
-						minDistance = voyageDistance[r];
-					}
 				}
 			}
 			return minVoyage;
