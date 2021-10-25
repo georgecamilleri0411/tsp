@@ -83,56 +83,61 @@ public class Utilities {
 	 */
 	public static void generatePermutations (int[] input) {
 
-		permutations = new int[getNumOfPermutations(cities.size())][(cities.size() + 1)];
+		try {
+			permutations = new int[getNumOfPermutations(cities.size())][(cities.size() + 1)];
 
-		// Initialise an integer array for the (number of cities - 1), since city 1 will always start
-		int[] sequence = new int[cities.size() - 1];
+			// Initialise an integer array for the (number of cities - 1), since city 1 will always start
+			int[] sequence = new int[cities.size() - 1];
 
-		// Permutations counter
-		int p = 0;
+			// Permutations counter
+			int p = 0;
 
 		/*
 		Add the values in their initial order in array input
 		 */
-		// Starting with the first city (i.e. starting point)
-		permutations[p][0] = cities.get(0).getIndex();
-		// Loop through the input array and populate the input array
-		for (int ct = 0; ct < input.length; ct++) {
-			permutations[p][(ct + 1)] = input[ct];
-		}
-		// Add the last element (city 1 again)
-		permutations[p][(input.length + 1)] = cities.get(0).getIndex();
-
-		// The first permutation (default sequence) is ready. Increment counter
-		p++;
-
-		// Use iterations to swap array elements
-		int i = 0;
-		while (i < sequence.length) {
-			if (sequence[i] < i) {
-				swap (input, i % 2 == 0 ? 0 : sequence[i], i);
-
-				if (p < permutations.length) {
-					// Add the first element (city 1)
-					permutations[p][0] = cities.get(0).getIndex();
-					// Add the values in permutations input
-					for (int ct = 0; ct < input.length; ct++) {
-						permutations[p][(ct + 1)] = input[ct];
-					}
-					// Add the last element (city 1 again)
-					permutations[p][(input.length + 1)] = cities.get(0).getIndex();
-
-				}
-
-				// Increment the permutations counter
-				p++;
-
-				sequence[i]++;
-				i = 0;
-			} else {
-				sequence[i] = 0;
-				i++;
+			// Starting with the first city (i.e. starting point)
+			permutations[p][0] = cities.get(0).getIndex();
+			// Loop through the input array and populate the input array
+			for (int ct = 0; ct < input.length; ct++) {
+				permutations[p][(ct + 1)] = input[ct];
 			}
+			// Add the last element (city 1 again)
+			permutations[p][(input.length + 1)] = cities.get(0).getIndex();
+
+			// The first permutation (default sequence) is ready. Increment counter
+			p++;
+
+			// Use iterations to swap array elements
+			int i = 0;
+			while (i < sequence.length) {
+				if (sequence[i] < i) {
+					swap (input, i % 2 == 0 ? 0 : sequence[i], i);
+
+					if (p < permutations.length) {
+						// Add the first element (city 1)
+						permutations[p][0] = cities.get(0).getIndex();
+						// Add the values in permutations input
+						for (int ct = 0; ct < input.length; ct++) {
+							permutations[p][(ct + 1)] = input[ct];
+						}
+						// Add the last element (city 1 again)
+						permutations[p][(input.length + 1)] = cities.get(0).getIndex();
+
+					}
+
+					// Increment the permutations counter
+					p++;
+
+					sequence[i]++;
+					i = 0;
+				} else {
+					sequence[i] = 0;
+					i++;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("An error has occurred - " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

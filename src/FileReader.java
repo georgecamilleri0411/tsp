@@ -6,23 +6,28 @@ public class FileReader {
 
 	// Reads the file passed as argument and stores it in an array of int with 3 dimensions
 	public static void readFile(String filePath) {
+		String nextLine = "";
+
 		try {
 			File textFile = new File(filePath);
 			Scanner fileReader = new Scanner(textFile);
 			boolean dupl = false;
 			while (fileReader.hasNextLine()) {
-				int[] lineData = parseLine(fileReader.nextLine());
+				nextLine = fileReader.nextLine().replaceAll("\t", " ").trim();
+				if (String.valueOf(nextLine) != null) {
+					int[] lineData = parseLine(nextLine);
 
-				// Check for duplicate cities
-				for (City c : Utilities.cities) {
-					dupl = false;
-					if ((c.getX() == lineData[1]) && (c.getY() == lineData[2])) {
-						dupl = true;
-						break;
+					// Check for duplicate cities
+					for (City c : Utilities.cities) {
+						dupl = false;
+						if ((c.getX() == lineData[1]) && (c.getY() == lineData[2])) {
+							dupl = true;
+							break;
+						}
 					}
-				}
-				if (!dupl) {
-					Utilities.cities.add(new City(lineData[0], lineData[1], lineData[2]));
+					if (!dupl) {
+						Utilities.cities.add(new City(lineData[0], lineData[1], lineData[2]));
+					}
 				}
 			}
 			fileReader.close();
@@ -32,6 +37,7 @@ public class FileReader {
 
 		} catch (FileNotFoundException e) {
 			System.out.println("An error has occurred - " + e.getMessage());
+			System.out.println("Line data: " + nextLine);
 			e.printStackTrace();
 		}
 	}
