@@ -13,6 +13,9 @@ public class Utilities {
 	// Array to store the different permutations
 	public static int[][] permutations = new int[getNumOfPermutations(cities.size())][(getNumOfPermutations(cities.size()) + 1)];
 
+	// Int Array storing whole voyage
+	public static double[] voyageDistance;
+
 	// Minimum distance (i.e. answer to the TSP)
 	public static double minimumDistance;
 
@@ -160,7 +163,7 @@ public class Utilities {
 		try {
 			double minDistance = -1;
 			int minVoyage = -1;
-			double[] voyageDistance = new double[getNumOfPermutations(cities.size())];
+			voyageDistance = new double[getNumOfPermutations(cities.size())];
 
 			System.out.println("Number of permutations: " + voyageDistance.length);
 
@@ -184,7 +187,6 @@ public class Utilities {
 							+ ") | Voyage distance: " + getDistance(from, to)
 							+ " | Total distance: " + voyageDistance[p]);
 					 */
-					minimumDistance = voyageDistance[p];
 				}
 			}
 
