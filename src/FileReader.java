@@ -1,98 +1,86 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class FileReader {
 
-	// Reads the file passed as argument and stores it in an array of int with 3 dimensions
-	public static void readFile(String filePath) {
-		String nextLine = "";
+    String fileData[];
 
-		try {
-			File textFile = new File(filePath);
-			Scanner fileReader = new Scanner(textFile);
-			boolean dupl = false;
-			while (fileReader.hasNextLine()) {
-				nextLine = fileReader.nextLine().replaceAll("\t", " ").trim();
-				if (String.valueOf(nextLine) != null) {
-					int[] lineData = parseLine(nextLine);
+    /*
+    Returns an array of String, containing the file contents parsed in pipe-delimited format
+     */
+    public static void readFile(String filePath) {
 
-					// Check for duplicate cities
-					for (City c : Utilities.cities) {
-						dupl = false;
-						if ((c.getX() == lineData[1]) && (c.getY() == lineData[2])) {
-							dupl = true;
-							break;
-						}
-					}
-					if (!dupl) {
-						Utilities.cities.add(new City(lineData[0], lineData[1], lineData[2]));
-					}
-				}
-			}
-			fileReader.close();
+        String nextLine = "";
+        int[] duplX;    // Used for searching for duplicate localities
+        int[] duplY;    // Used for searching for duplicate localities
 
-			// Set the distance from all cities to all other cities
-			Utilities.setDistances();
+        try {
+            File textFile = new File(filePath);
+            Scanner fileScanner = new Scanner(textFile);
+            while (fileScanner.hasNextLine()) {
+                // Read the next line into a String and replace and tab characters with a single space character
+                nextLine = fileScanner.nextLine().replaceAll("\t", " ").trim();
+                if (String.valueOf(nextLine) != null) {
+                    int[] lineData = parseLine(nextLine);
 
-		} catch (FileNotFoundException e) {
-			System.out.println("An error has occurred - " + e.getMessage());
-			System.out.println("Line data: " + nextLine);
-			e.printStackTrace();
-		}
-	}
+//                    if (lineData != null) {
+//                        // Check for duplicate localities
+//                        duplX = Arrays.binarySearch(Utilities.getLocalities(), lineData[1]);
+//                    }
 
-	/*
-	 Parses the data line read and returns an array of Integers
-	 */
-	private static int[] parseLine(String dataLine) {
-		try {
-			// Replace multiple spaces by a single space using Regex
-			dataLine = dataLine.replaceAll("^ +| +$|( )+", "$1");
+                    // Check for duplicate cities
+//                    for (City c : Utilities_001.cities) {
+//                        dupl = false;
+//                        if ((c.getX() == lineData[1]) && (c.getY() == lineData[2])) {
+//                            dupl = true;
+//                            break;
+//                        }
+//                    }
+//                    if (!dupl) {
+//                        Utilities_001.cities.add(new City(lineData[0], lineData[1], lineData[2]));
+//                    }
+                }
+            }
+            fileScanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error has occurred - " + e.getMessage());
+            System.out.println("Line data: " + nextLine);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("An error has occurred - " + e.getMessage());
+            System.out.println("Line data: " + nextLine);
+            e.printStackTrace();
+        }
+    }
 
-			/*
-			// Remove spaces at both ends of the string
-			dataLine = dataLine.trim();
+    /*
+    Parses the data line read and returns an array of Integers
+    */
+    private static int[] parseLine(String dataLine) {
+        try {
+            // Replace multiple spaces by a single space using Regex
+            dataLine = dataLine.replaceAll("^ +| +$|( )+", "$1");
 
-			// Loops through the string to replace multiple (2) spaces by a single space
-			while (dataLine.contains("  ")) {
-				dataLine = dataLine.replace("  ", " ");
-			}
-			 */
+            // Splits the string into a String array, then loops through it to populate the Integer arrays
+            String[] line = dataLine.split(" ");
+            int[] output = new int[line.length];
 
-			// Splits the string into a String array, then loops through it to populate the Integer array
-			String[] line = dataLine.split(" ");
-			int[] output = new int[line.length];
+            for (int i = 0; i < line.length; i++) {
+                if (Utilities.valueIsNumeric(line[i])) {
+                    output[i] = Integer.parseInt(line[i]);
+                } else {
+                    output[i] = Integer.parseInt(null);
+                }
+            }
+            return output;
+        } catch (Exception e) {
+            System.out.println("An error has occurred - " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-			for (int i = 0; i < line.length; i++) {
-				if (isNumeric(line[i])) {
-					output[i] = Integer.parseInt(line[i]);
-				} else {
-					output[i] = Integer.parseInt(null);
-				}
-			}
 
-			return output;
-		} catch (Exception e) {
-			System.out.println("An error has occurred - " + e.getMessage());
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/*
-	Returns True if the value passed is numeric
-	 */
-	public static boolean isNumeric(String input) {
-
-		if (input == null || input.trim().length() == 0) {
-			return false;
-		}
-		try {
-			int i = Integer.parseInt(input);
-		} catch (NumberFormatException e) {
-			return false;
-		}
-		return true;
-	}
 }

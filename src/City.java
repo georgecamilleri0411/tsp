@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class City {
 
 	private boolean isStart = false;
@@ -46,7 +44,7 @@ public class City {
 	// Returns the Euclidean distance from this city ot the one passed as an argument
 	public double distanceToCity (City toCity) {
 		try {
-			return Utilities.getEuclideanDistance(getX(), getY(), toCity.getX(), toCity.getY());
+			return Utilities_001.getEuclideanDistance(getX(), getY(), toCity.getX(), toCity.getY());
 		} catch (Exception e) {
 			System.out.println("An error has occurred - " + e.getMessage());
 			e.printStackTrace();
