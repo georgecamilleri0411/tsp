@@ -1,6 +1,5 @@
 import java.lang.Math;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Utilities_001 {
 
@@ -8,7 +7,7 @@ public class Utilities_001 {
 	public static ArrayList<City> cities = new ArrayList<>();
 
 	// ArrayList to store the distance between each coordinates
-	public static ArrayList<Distance> distances = new ArrayList<>();
+	public static ArrayList<Distance_001> distances = new ArrayList<>();
 
 	// Array to store the different permutations
 	public static int[][] permutations = new int[getNumOfPermutations(cities.size())][(getNumOfPermutations(cities.size()) + 1)];
@@ -53,7 +52,7 @@ public class Utilities_001 {
 		for (City c1 : cities) {
 			for (City c2 : cities) {
 				if (c1 != c2) {
-					distances.add(new Distance(c1.getIndex(), c2.getIndex(),
+					distances.add(new Distance_001(c1.getIndex(), c2.getIndex(),
 							getEuclideanDistance(c1.getX(), c1.getY(), c2.getX(), c2.getY())));
 				}
 			}

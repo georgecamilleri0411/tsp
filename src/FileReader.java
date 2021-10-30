@@ -24,6 +24,9 @@ public class FileReader {
                 nextLine = fileScanner.nextLine().replaceAll("\t", " ").trim();
                 if (String.valueOf(nextLine) != null) {
                     int[] lineData = parseLine(nextLine);
+                    if (lineData.length == 3) { // No thorough QA. At least, confirm 3 elements in the array.
+                        Utilities.addLocality(lineData);
+                    }
 
 //                    if (lineData != null) {
 //                        // Check for duplicate localities
@@ -44,13 +47,17 @@ public class FileReader {
                 }
             }
             fileScanner.close();
+
+            // Populate the Utilities.locDistances ArrayList, so that these are cached
+            Utilities.setLocDistances();
+
         } catch (FileNotFoundException e) {
-            System.out.println("An error has occurred - " + e.getMessage());
-            System.out.println("Line data: " + nextLine);
+            System.out.println("FileReader.ReadLine - An error has occurred - " + e.getMessage());
+            System.out.println("FileReader.ReadLine - Line data: " + nextLine);
             e.printStackTrace();
         } catch (Exception e) {
-            System.out.println("An error has occurred - " + e.getMessage());
-            System.out.println("Line data: " + nextLine);
+            System.out.println("FileReader.ReadLine - An error has occurred - " + e.getMessage());
+            System.out.println("FileReader.ReadLine - Line data: " + nextLine);
             e.printStackTrace();
         }
     }
@@ -76,7 +83,7 @@ public class FileReader {
             }
             return output;
         } catch (Exception e) {
-            System.out.println("An error has occurred - " + e.getMessage());
+            System.out.println("FileReader.parseLine - An error has occurred - " + e.getMessage());
             e.printStackTrace();
             return null;
         }
