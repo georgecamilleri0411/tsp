@@ -2,11 +2,21 @@ import java.util.ArrayList;
 
 public class Utilities {
 
+    // ArrayList of Integer to store the Localities (cities) indexes
     protected static ArrayList<Integer> localities = new ArrayList();
+    // ArrayList of Integer to store each locality's X coordinate
     protected static ArrayList<Integer> locX = new ArrayList();
+    // ArrayList of Integer to store each locality's Y coordinate
     protected static ArrayList<Integer> locY = new ArrayList();
+    // ArrayList of Distance to store the distance for each locality to all other localities
     private static ArrayList<Distance> locDistances = new ArrayList();
+    // Array of Integer to store all the different permutations.
+    private static int[][] permutations
+            = new int[getNumOfPermutations(localities.size())][(getNumOfPermutations(localities.size()) + 1)];
 
+    /*
+    Getters and setters
+     */
     public static ArrayList<Integer> getLocalities() {
         return localities;
     }
@@ -30,6 +40,9 @@ public class Utilities {
 
     public static ArrayList<Distance> getLocDistances() {return locDistances;}
     public static void setLocDistances(ArrayList<Distance> locDistances) {Utilities.locDistances = locDistances;}
+
+    public static int[][] getPermutations() {return permutations;}
+    public static void setPermutations(int[][] permutations) {Utilities.permutations = permutations;}
 
     /*
     Returns True if the String value passed is numeric
@@ -90,6 +103,87 @@ public class Utilities {
         } catch (Exception e) {
             System.out.println ("Utilities.setLocDistances - An error has occurred: " + e.getMessage());
         }
+    }
+
+    // Get the number of different permutations possible
+    public static int getNumOfPermutations(int numOfLocalities) {
+        int permutations = 1;
+        for (int i = 1; i < (numOfLocalities - 1); i++) {
+            permutations += (i * permutations);
+        }
+        return permutations;
+    }
+
+    /*
+	Generates all permutations of the integer array passed as argument. This method is used for the Brute Force solution
+	 */
+    public static void generatePermutations (int[] input) {
+
+        try {
+            setPermutations(new int[getNumOfPermutations(localities.size())][(localities.size() + 1)]);
+
+            // Initialise an integer array for the (number of cities - 1), since city 1 will always start
+            int[] sequence = new int[localities.size() - 1];
+
+            // Permutations counter
+            int p = 0;
+
+		    /*
+		    Add the values in their initial order in array input
+		    */
+            // Starting with the first city (i.e. starting point)
+            permutations[p][0] = localities.get(0);
+            // Loop through the input array and populate the input array
+            for (int ct = 0; ct < input.length; ct++) {
+                getPermutations()[p][(ct + 1)] = input[ct];
+            }
+            // Add the last element (city 1 again)
+            permutations[p][(input.length + 1)] = localities.get(0);
+
+            // The first permutation (default sequence) is ready. Increment counter
+            p++;
+
+            // Use iterations to swap array elements
+            int i = 0;
+            while (i < sequence.length) {
+                if (sequence[i] < i) {
+                    swapElements (input, i % 2 == 0 ? 0 : sequence[i], i);
+
+                    if (p < getPermutations().length) {
+                        // Add the first element (city 1)
+                        permutations[p][0] = localities.get(0);
+                        // Add the values in permutations input
+                        for (int ct = 0; ct < input.length; ct++) {
+                            getPermutations()[p][(ct + 1)] = input[ct];
+                        }
+                        // Add the last element (city 1 again)
+                        getPermutations()[p][(input.length + 1)] = localities.get(0);
+
+                    }
+
+                    // Increment the permutations counter
+                    p++;
+
+                    sequence[i]++;
+                    i = 0;
+                } else {
+                    sequence[i] = 0;
+                    i++;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("An error has occurred - " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /*
+    Swaps two elements of the input array (of Integer) with each other
+    */
+    private static void swapElements(int[] input, int e1, int e2) {
+        int tmp = input[e1];
+        input[e1] = input[e2];
+        input[e2] = tmp;
     }
 
 }
