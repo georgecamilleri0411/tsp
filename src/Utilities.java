@@ -115,9 +115,10 @@ public class Utilities {
     }
 
     /*
-	Generates all permutations of the integer array passed as argument. This method is used for the Brute Force solution
+	Generates all permutations of the integer array passed as argument.
+	This method is used for the Brute Force solution.
 	 */
-    public static void generatePermutations (int[] input) {
+    public static void generatePermutations (ArrayList<Integer> input) {
 
         try {
             setPermutations(new int[getNumOfPermutations(localities.size())][(localities.size() + 1)]);
@@ -129,16 +130,16 @@ public class Utilities {
             int p = 0;
 
 		    /*
-		    Add the values in their initial order in array input
+		    Add the values in their initial order into array input.
+            Starting with the first city (i.e. starting point).
 		    */
-            // Starting with the first city (i.e. starting point)
             permutations[p][0] = localities.get(0);
-            // Loop through the input array and populate the input array
-            for (int ct = 0; ct < input.length; ct++) {
-                getPermutations()[p][(ct + 1)] = input[ct];
+            // Loop through the input ArrayList and populate the input array
+            for (int l = 1; l < input.size(); l++) {
+                getPermutations()[p][(l)] = input.get(l).intValue();
             }
             // Add the last element (city 1 again)
-            permutations[p][(input.length + 1)] = localities.get(0);
+            permutations[p][(input.size() + 1)] = localities.get(0);
 
             // The first permutation (default sequence) is ready. Increment counter
             p++;
@@ -153,11 +154,11 @@ public class Utilities {
                         // Add the first element (city 1)
                         permutations[p][0] = localities.get(0);
                         // Add the values in permutations input
-                        for (int ct = 0; ct < input.length; ct++) {
-                            getPermutations()[p][(ct + 1)] = input[ct];
+                        for (int ct = 0; ct < input.size(); ct++) {
+                            getPermutations()[p][(ct + 1)] = input.get(ct);
                         }
                         // Add the last element (city 1 again)
-                        getPermutations()[p][(input.length + 1)] = localities.get(0);
+                        getPermutations()[p][(input.size() + 1)] = localities.get(0);
 
                     }
 
@@ -180,10 +181,10 @@ public class Utilities {
     /*
     Swaps two elements of the input array (of Integer) with each other
     */
-    private static void swapElements(int[] input, int e1, int e2) {
-        int tmp = input[e1];
-        input[e1] = input[e2];
-        input[e2] = tmp;
+    private static void swapElements(ArrayList<Integer> input, int e1, int e2) {
+        int tmp = input.get(e1);
+        input.set(e1, input.get(e2));
+        input.set(e2, tmp);
     }
 
 }
