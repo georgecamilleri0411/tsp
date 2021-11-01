@@ -18,22 +18,30 @@ public class FileReader {
 
         try {
             File textFile = new File(filePath);
-            Scanner fileScanner = new Scanner(textFile);
-            while (fileScanner.hasNextLine()) {
-                // Read the next line into a String and replace and tab characters with a single space character
-                nextLine = fileScanner.nextLine().replaceAll("\t", " ").trim();
-                if (String.valueOf(nextLine) != null) {
-                    int[] lineData = parseLine(nextLine);
-                    if (lineData.length == 3) { // No thorough QA. At least, confirm 3 elements in the array.
-                        Utilities.addLocality(lineData);
-                    }
+            if (textFile.exists()) {
+
+                // Clear the ArrayLists
+                Utilities.getLocalities().clear();
+                Utilities.getLocX().clear();
+                Utilities.getLocY().clear();
+                Utilities.getLocDistances().clear();
+
+                Scanner fileScanner = new Scanner(textFile);
+                while (fileScanner.hasNextLine()) {
+                    // Read the next line into a String and replace and tab characters with a single space character
+                    nextLine = fileScanner.nextLine().replaceAll("\t", " ").trim();
+                    if (String.valueOf(nextLine) != null) {
+                        int[] lineData = parseLine(nextLine);
+                        if (lineData.length == 3) { // No thorough QA. At least, confirm 3 elements in the array.
+                            Utilities.addLocality(lineData);
+                        }
 
 //                    if (lineData != null) {
 //                        // Check for duplicate localities
 //                        duplX = Arrays.binarySearch(Utilities.getLocalities(), lineData[1]);
 //                    }
 
-                    // Check for duplicate cities
+                        // Check for duplicate cities
 //                    for (City c : Utilities_001.cities) {
 //                        dupl = false;
 //                        if ((c.getX() == lineData[1]) && (c.getY() == lineData[2])) {
@@ -44,12 +52,15 @@ public class FileReader {
 //                    if (!dupl) {
 //                        Utilities_001.cities.add(new City(lineData[0], lineData[1], lineData[2]));
 //                    }
+                    }
                 }
-            }
-            fileScanner.close();
+                fileScanner.close();
 
-            // Populate the Utilities.locDistances ArrayList, so that these are cached
-            Utilities.setLocDistances();
+                // Populate the Utilities.locDistances ArrayList, so that these are cached
+                Utilities.setLocDistances();
+            } else {
+                System.out.println ("File not found.");
+            }
 
         } catch (FileNotFoundException e) {
             System.out.println("FileReader.ReadLine - An error has occurred - " + e.getMessage());

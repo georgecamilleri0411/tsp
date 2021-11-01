@@ -91,9 +91,9 @@ public class Utilities_001 {
 			// Permutations counter
 			int p = 0;
 
-		/*
-		Add the values in their initial order in array input
-		 */
+			/*
+			Add the values in their initial order in array input
+		 	*/
 			// Starting with the first city (i.e. starting point)
 			permutations[p][0] = cities.get(0).getIndex();
 			// Loop through the input array and populate the input array

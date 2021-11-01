@@ -135,8 +135,8 @@ public class Utilities {
 		    */
             permutations[p][0] = localities.get(0);
             // Loop through the input ArrayList and populate the input array
-            for (int l = 1; l < input.size(); l++) {
-                getPermutations()[p][(l)] = input.get(l).intValue();
+            for (int l = 0; l < input.size(); l++) {
+                getPermutations()[p][(l + 1)] = input.get(l).intValue();
             }
             // Add the last element (city 1 again)
             permutations[p][(input.size() + 1)] = localities.get(0);
@@ -158,13 +158,11 @@ public class Utilities {
                             getPermutations()[p][(ct + 1)] = input.get(ct);
                         }
                         // Add the last element (city 1 again)
-                        getPermutations()[p][(input.size() + 1)] = localities.get(0);
-
+                        getPermutations()[p][(input.size())] = localities.get(0);
                     }
 
                     // Increment the permutations counter
                     p++;
-
                     sequence[i]++;
                     i = 0;
                 } else {
