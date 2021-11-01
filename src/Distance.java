@@ -1,31 +1,31 @@
 public class Distance {
 
-	private int fromLocality;
-	private int toLocality;
+	private int fromCity;
+	private int toCity;
 	private double distance;
 
 	public Distance () {}
 
-	public Distance (int fromLocality, int toLocality, double distance) {
-		setFromLocality(fromLocality);
-		setToLocality(toLocality);
+	public Distance (int fromCity, int toCity, double distance) {
+		setFromCity(fromCity);
+		setToCity(toCity);
 		setDistance(distance);
 	}
 
-	public int getFromLocality() {
-		return this.fromLocality;
+	public int getFromCity() {
+		return this.fromCity;
 	}
 
-	public void setFromLocality(int fromLocality) {
-		this.fromLocality = fromLocality;
+	public void setFromCity(int fromCity) {
+		this.fromCity = fromCity;
 	}
 
-	public int getToLocality() {
-		return this.toLocality;
+	public int getToCity() {
+		return this.toCity;
 	}
 
-	public void setToLocality(int toLocality) {
-		this.toLocality = toLocality;
+	public void setToCity(int toCity) {
+		this.toCity = toCity;
 	}
 
 	public double getDistance() {

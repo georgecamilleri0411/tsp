@@ -1,188 +1,219 @@
+import java.lang.Math;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Utilities {
 
-    // ArrayList of Integer to store the Localities (cities) indexes
-    protected static ArrayList<Integer> localities = new ArrayList();
-    // ArrayList of Integer to store each locality's X coordinate
-    protected static ArrayList<Integer> locX = new ArrayList();
-    // ArrayList of Integer to store each locality's Y coordinate
-    protected static ArrayList<Integer> locY = new ArrayList();
-    // ArrayList of Distance to store the distance for each locality to all other localities
-    private static ArrayList<Distance> locDistances = new ArrayList();
-    // Array of Integer to store all the different permutations.
-    private static int[][] permutations
-            = new int[getNumOfPermutations(localities.size())][(getNumOfPermutations(localities.size()) + 1)];
+	// ArrayList to store the coordinates
+	public static ArrayList<City> cities = new ArrayList<>();
 
-    /*
-    Getters and setters
-     */
-    public static ArrayList<Integer> getLocalities() {
-        return localities;
-    }
-    public static void setLocalities(ArrayList<Integer> localities) {
-        Utilities.localities = localities;
-    }
+	// ArrayList to store the distance between each coordinates
+	public static ArrayList<Distance> distances = new ArrayList<>();
 
-    public static ArrayList<Integer> getLocX() {
-        return locX;
-    }
-    public static void setLocX(ArrayList<Integer> locX) {
-        Utilities.locX = locX;
-    }
+	// Array to store the different permutations
+	public static int[][] permutations = new int[getNumOfPermutations(cities.size())][(getNumOfPermutations(cities.size()) + 1)];
 
-    public static ArrayList<Integer> getLocY() {
-        return locY;
-    }
-    public static void setLocY(ArrayList<Integer> locY) {
-        Utilities.locY = locY;
-    }
+	// Int Array storing whole voyage
+	public static double[] voyageDistance;
 
-    public static ArrayList<Distance> getLocDistances() {return locDistances;}
-    public static void setLocDistances(ArrayList<Distance> locDistances) {Utilities.locDistances = locDistances;}
+	// Minimum distance (i.e. answer to the TSP)
+	public static double minimumDistance;
 
-    public static int[][] getPermutations() {return permutations;}
-    public static void setPermutations(int[][] permutations) {Utilities.permutations = permutations;}
+	// Get the number of voyages the salesman must make to traverse all cities
+	public int getNumOfVoyages() {
+		return cities.size();
+	}
 
-    /*
-    Returns True if the String value passed is numeric
-    */
-    public static boolean valueIsNumeric(String input) {
-        try {
-            return (input.trim() != null && input.matches("[-+]?\\d*\\.?\\d+"));
-        } catch (NumberFormatException e) {
-            System.out.println ("Utilities.valueIsNumeric - A Number Format Exception has occurred: " + e.getMessage());
-            return false;
-        }
-    }
+	// Get the number of different permutations possible
+	public static int getNumOfPermutations(int numOfCities) {
+		int permutations = 1;
+		for (int i = 1; i < (numOfCities - 1); i++) {
+			permutations += (i * permutations);
+		}
+		return permutations;
+	}
 
-    /*
-    Calculates the Euclidean distance between 2 points on a plane by using the Pythagorean theorem
-    */
-    public static double getEuclideanDistance(int x1, int y1, int x2, int y2) {
-        try {
-            return Math.hypot(Math.abs(y1 - y2), Math.abs(x1 - x2));
-        } catch (Exception e) {
-            System.out.println("Utilities.getEuclideanDistance - An error has occurred - " + e.getMessage());
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
-    /*
-    Adds elements to the localities, locX and locY ArrayLists, from the int Array passed
-     */
-    public static void addLocality(int[] input) {
-        try {
-            getLocalities().add(input[0]);
-            getLocX().add(input[1]);
-            getLocY().add(input[2]);
-        } catch (NumberFormatException e) {
-            System.out.println ("Utilities.addLocality - A Number Format Exception has occurred: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println ("Utilities.addLocality - An error has occurred: " + e.getMessage());
-        }
-    }
-
-    /*
-    Populates the locDistances ArrayList, so that the distances are all cached
-     */
-    public static void setLocDistances() {
-        try {
-            for (int c1 = 0; c1 < getLocalities().size(); c1++) {
-                for (int c2 = 0; c2 < getLocalities().size(); c2++) {
-                    if (c1 != c2) {
-                        getLocDistances().add(new Distance(getLocalities().get(c1), getLocalities().get(c2),
-                                getEuclideanDistance(getLocX().get(c1), getLocY().get(c1), getLocX().get(c2), getLocY().get(c2))));
-                    }
-                }
-            }
-
-        } catch (NumberFormatException e) {
-            System.out.println ("Utilities.setLocDistances - A Number Format Exception has occurred: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println ("Utilities.setLocDistances - An error has occurred: " + e.getMessage());
-        }
-    }
-
-    // Get the number of different permutations possible
-    public static int getNumOfPermutations(int numOfLocalities) {
-        int permutations = 1;
-        for (int i = 1; i < (numOfLocalities - 1); i++) {
-            permutations += (i * permutations);
-        }
-        return permutations;
-    }
-
-    /*
-	Generates all permutations of the integer array passed as argument.
-	This method is used for the Brute Force solution.
+	/*
+	Calculates the Euclidean distance between 2 points on a plane by using the Pythagorean theorem
 	 */
-    public static void generatePermutations (ArrayList<Integer> input) {
+	public static double getEuclideanDistance(int x1, int y1, int x2, int y2) {
+		try {
+			return Math.hypot(Math.abs(y1 - y2), Math.abs(x1 - x2));
+		} catch (Exception e) {
+			System.out.println("An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+			return 0;
+		}
+	}
 
-        try {
-            setPermutations(new int[getNumOfPermutations(localities.size())][(localities.size() + 1)]);
+	/*
+	Sets the distance between all the cities
+	 */
+	public static void setDistances() {
+		for (City c1 : cities) {
+			for (City c2 : cities) {
+				if (c1 != c2) {
+					distances.add(new Distance(c1.getIndex(), c2.getIndex(),
+							getEuclideanDistance(c1.getX(), c1.getY(), c2.getX(), c2.getY())));
+				}
+			}
+		}
+	}
 
-            // Initialise an integer array for the (number of cities - 1), since city 1 will always start
-            int[] sequence = new int[localities.size() - 1];
+	/*
+	Retrieves the distance between two cities from the distances ArrayList
+	*/
+	public static double getDistance(int from, int to) {
+		try {
+			for (int d = 0; d < distances.size(); d++) {
+				if ((distances.get(d).getFromCity() == from) && distances.get(d).getToCity() == to) {
+					return distances.get(d).getDistance();
+				}
+			}
+			return 0;
+		} catch (Exception e) {
+			System.out.println("An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+			return 0;
+		}
+	}
 
-            // Permutations counter
-            int p = 0;
+	/*
+	Generates all permutations of the integer array passed as argument
+	 */
+	public static void generatePermutations (int[] input) {
 
-		    /*
-		    Add the values in their initial order into array input.
-            Starting with the first city (i.e. starting point).
-		    */
-            permutations[p][0] = localities.get(0);
-            // Loop through the input ArrayList and populate the input array
-            for (int l = 0; l < input.size(); l++) {
-                getPermutations()[p][(l + 1)] = input.get(l).intValue();
-            }
-            // Add the last element (city 1 again)
-            permutations[p][(input.size() + 1)] = localities.get(0);
+		try {
+			permutations = new int[getNumOfPermutations(cities.size())][(cities.size() + 1)];
 
-            // The first permutation (default sequence) is ready. Increment counter
-            p++;
+			// Initialise an integer array for the (number of cities - 1), since city 1 will always start
+			int[] sequence = new int[cities.size() - 1];
 
-            // Use iterations to swap array elements
-            int i = 0;
-            while (i < sequence.length) {
-                if (sequence[i] < i) {
-                    swapElements (input, i % 2 == 0 ? 0 : sequence[i], i);
+			// Permutations counter
+			int p = 0;
 
-                    if (p < getPermutations().length) {
-                        // Add the first element (city 1)
-                        permutations[p][0] = localities.get(0);
-                        // Add the values in permutations input
-                        for (int ct = 0; ct < input.size(); ct++) {
-                            getPermutations()[p][(ct + 1)] = input.get(ct);
-                        }
-                        // Add the last element (city 1 again)
-                        getPermutations()[p][(input.size())] = localities.get(0);
-                    }
+		/*
+		Add the values in their initial order in array input
+		 */
+			// Starting with the first city (i.e. starting point)
+			permutations[p][0] = cities.get(0).getIndex();
+			// Loop through the input array and populate the input array
+			for (int ct = 0; ct < input.length; ct++) {
+				permutations[p][(ct + 1)] = input[ct];
+			}
+			// Add the last element (city 1 again)
+			permutations[p][(input.length + 1)] = cities.get(0).getIndex();
 
-                    // Increment the permutations counter
-                    p++;
-                    sequence[i]++;
-                    i = 0;
-                } else {
-                    sequence[i] = 0;
-                    i++;
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("An error has occurred - " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+			// The first permutation (default sequence) is ready. Increment counter
+			p++;
 
-    /*
-    Swaps two elements of the input array (of Integer) with each other
-    */
-    private static void swapElements(ArrayList<Integer> input, int e1, int e2) {
-        int tmp = input.get(e1);
-        input.set(e1, input.get(e2));
-        input.set(e2, tmp);
-    }
+			// Use iterations to swap array elements
+			int i = 0;
+			while (i < sequence.length) {
+				if (sequence[i] < i) {
+					swap (input, i % 2 == 0 ? 0 : sequence[i], i);
+
+					if (p < permutations.length) {
+						// Add the first element (city 1)
+						permutations[p][0] = cities.get(0).getIndex();
+						// Add the values in permutations input
+						for (int ct = 0; ct < input.length; ct++) {
+							permutations[p][(ct + 1)] = input[ct];
+						}
+						// Add the last element (city 1 again)
+						permutations[p][(input.length + 1)] = cities.get(0).getIndex();
+
+					}
+
+					// Increment the permutations counter
+					p++;
+
+					sequence[i]++;
+					i = 0;
+				} else {
+					sequence[i] = 0;
+					i++;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	/*
+	Swaps two elements of the input array with each other
+	 */
+	private static void swap(int[] input, int e1, int e2) {
+		int tmp = input[e1];
+		input[e1] = input[e2];
+		input[e2] = tmp;
+	}
+
+	/*
+	Outputs the array to stdout in sequence
+	 */
+	private static void displaySequence(int[] input) {
+		for (int i = 0; i < input.length; i++) {
+			System.out.print(input[i] + " ");
+		}
+		System.out.println();
+	}
+
+	/*
+	Finds the shortest path between the cities list using brute force, using the Permutations array.
+	*/
+	//public static int[] getShortestPath_bruteForce() {
+	public static int solveTSP_bruteForce() {
+		try {
+			double minDistance = -1;
+			int minVoyage = -1;
+			voyageDistance = new double[getNumOfPermutations(cities.size())];
+
+			System.out.println("Number of permutations: " + voyageDistance.length);
+
+			int from = 0;
+			int to = 0;
+			double cityDistance = 0;
+			for (int p = 0; p < permutations.length; p++) {
+				for (int v = 1; v < (cities.size() + 1); v++) {
+					// First iteration - just get the 'from' city
+					if (v == 1) {
+						from = permutations[p][0];
+						to = permutations[p][v];
+						voyageDistance[p] = getDistance(from, to);
+					} else {
+						from = to;
+						to = permutations[p][v];
+					 	voyageDistance[p] += getDistance(from, to);
+					}
+					/*
+					System.out.println ("Permutation: " + p + "." + v + " (from " + from + " to " + to
+							+ ") | Voyage distance: " + getDistance(from, to)
+							+ " | Total distance: " + voyageDistance[p]);
+					 */
+				}
+			}
+
+			/*
+			Loop through the voyageDistance array to determine the shortest route
+			Step 1: set the minDistance and minVoyage to the first element in the voyageDistance array
+			 */
+			minDistance = voyageDistance[0];
+			minVoyage = 0;
+			for (int r = 0; r < voyageDistance.length; r++) {
+				if (voyageDistance[r] < minDistance) {
+					minDistance = voyageDistance[r];
+					minVoyage = r;
+				}
+			}
+			return minVoyage;
+
+		} catch (Exception e) {
+			System.out.println("An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+			return 0;
+		}
+	}
 
 }
