@@ -163,16 +163,6 @@ public class Utilities {
 	}
 
 	/*
-	Outputs the array to stdout in sequence
-	 */
-	private static void displaySequence(int[] input) {
-		for (int i = 0; i < input.length; i++) {
-			System.out.print(input[i] + " ");
-		}
-		System.out.println();
-	}
-
-	/*
 	Finds the shortest path between the cities list using brute force, using the Permutations array.
 	*/
 	//public static int[] getShortestPath_bruteForce() {
