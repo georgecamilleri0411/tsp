@@ -13,7 +13,7 @@ public class Utilities {
 	// Array to store the different permutations
 	public static int[][] permutations = new int[getNumOfPermutations(cities.size())][(getNumOfPermutations(cities.size()) + 1)];
 
-	// Int Array storing whole voyage
+	// Array of Double storing whole voyage
 	public static double[] voyageDistance;
 
 	// Minimum distance (i.e. answer to the TSP)
@@ -81,7 +81,7 @@ public class Utilities {
 	/*
 	Generates all permutations of the integer array passed as argument
 	 */
-	public static void generatePermutations (int[] input) {
+	public static void generatePermutations (int[] input, boolean displayPermutations) {
 
 		try {
 			permutations = new int[getNumOfPermutations(cities.size())][(cities.size() + 1)];
@@ -92,10 +92,10 @@ public class Utilities {
 			// Permutations counter
 			int p = 0;
 
-		/*
-		Add the values in their initial order in array input
-		 */
-			// Starting with the first city (i.e. starting point)
+			/*
+			Add the values in their initial order in array input,
+			starting with the first city (i.e. starting point).
+		 	*/
 			permutations[p][0] = cities.get(0).getIndex();
 			// Loop through the input array and populate the input array
 			for (int ct = 0; ct < input.length; ct++) {
@@ -133,6 +133,18 @@ public class Utilities {
 				} else {
 					sequence[i] = 0;
 					i++;
+				}
+			}
+			if (displayPermutations) {
+				for (int x = 0; x < permutations.length; x++) {
+					for (int c = 0; c < permutations[p].length; c++) {
+						System.out.print(permutations[x][c]);
+						if (c < (cities.size())) {
+							System.out.print (" >> ");
+						} else {
+							System.out.println();
+						}
+					}
 				}
 			}
 		} catch (Exception e) {
