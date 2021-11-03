@@ -1,13 +1,13 @@
 import java.lang.Math;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 public class Utilities {
 
 	// ArrayList to store the coordinates
 	public static ArrayList<City> cities = new ArrayList<>();
 
-	// ArrayList to store the distance between each coordinates
+	// ArrayList to store the distance between each locality (city)
 	public static ArrayList<Distance> distances = new ArrayList<>();
 
 	// Array to store the different permutations
@@ -79,8 +79,8 @@ public class Utilities {
 	}
 
 	/*
-Generates all permutations of the integer array passed as argument
- */
+	Generates all permutations of the integer array passed as argument
+ 	*/
 	public static void generatePermutations2 (int[] input, boolean displayPermutations) {
 
 		//TODO Try to convert this method to run recursively in batches, to avoid out of memory errors
@@ -237,9 +237,8 @@ Generates all permutations of the integer array passed as argument
 	}
 
 	/*
-	Finds the shortest path between the cities list using brute force, using the Permutations array.
+	Solves the TSP using brute force, using the Permutations array.
 	*/
-	//public static int[] getShortestPath_bruteForce() {
 	public static int solveTSP_bruteForce() {
 		try {
 			double minDistance = -1;
@@ -289,6 +288,45 @@ Generates all permutations of the integer array passed as argument
 			System.out.println("An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return 0;
+		}
+	}
+
+	/*
+	Solves the TSP using Greedy Best-First Search (BeFS), by selecting the path
+	that 'appears' to be the best.
+	 */
+	public static int[] solveTSP_GreedyBeFS(int[] input) {
+		// TODO: Iterate through the input array until all best neighbours are found.
+		int[] output = new int[cities.size()];
+
+		try {
+		} catch (Exception e) {
+			System.out.println("An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			return output;
+		}
+	}
+
+	/*
+	Finds the best neighbour to the city passed as input
+	 */
+	public static int getBestNeighbour(int fromCity) {
+
+		int result = -1;
+
+		try {
+			for (int d = 0; d < distances.size(); d++) {
+				if ((result == -1) || (distances.get(d).getDistance() < result)) {
+					result = d;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+			return -1;
+		} finally {
+			return result;
 		}
 	}
 
