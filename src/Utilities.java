@@ -311,14 +311,26 @@ public class Utilities {
 	/*
 	Finds the best neighbour to the city passed as input
 	 */
-	public static int getBestNeighbour(int fromCity) {
+	public static int getBestNeighbour(int fromCity, int[] ignoreCities) {
 
 		int result = -1;
+		boolean toIgnore = false;
+
+		// Copy the distances ArrayList into a new ArrayList 'neighbours'
+		ArrayList<Distance> neighbours = distances;
+		// Remove any elements with the fromCity specified as toCity in the 'neighbours' ArrayList
+		neighbours.removeIf(n -> (n.getToCity() == fromCity));
+		// Remove elements where the toCity is listed in the ignoreCities array
+		for (int i = 0; i < ignoreCities.length; i++) {
+			int finalCityToIgnore = ignoreCities[i];
+			neighbours.removeIf(n -> (n.getToCity() == finalCityToIgnore));
+		}
+		neighbours.trimToSize();
 
 		try {
-			for (int d = 0; d < distances.size(); d++) {
-				if ((result == -1) || (distances.get(d).getDistance() < result)) {
-					result = d;
+			for (int n = 0; n < neighbours.size(); n++) {
+				if ((result == -1) || (neighbours.get(n).getDistance() < result)) {
+					result = neighbours.get(n).getToCity();
 				}
 			}
 		} catch (Exception e) {
