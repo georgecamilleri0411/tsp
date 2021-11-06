@@ -327,6 +327,7 @@ public class Utilities {
 		}
 		neighbours.trimToSize();
 
+		// Find the best neighbour
 		try {
 			for (int n = 0; n < neighbours.size(); n++) {
 				if ((result == -1) || (neighbours.get(n).getDistance() < result)) {
