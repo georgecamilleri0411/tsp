@@ -222,7 +222,7 @@ public class Utilities {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("An error has occurred - " + e.getMessage());
+			System.out.println("Utilities.generatePermutations - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -285,7 +285,7 @@ public class Utilities {
 			return minVoyage;
 
 		} catch (Exception e) {
-			System.out.println("An error has occurred - " + e.getMessage());
+			System.out.println("Utilities.solveTSP_bruteForce - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return 0;
 		}
@@ -295,13 +295,35 @@ public class Utilities {
 	Solves the TSP using Greedy Best-First Search (BeFS), by selecting the path
 	that 'appears' to be the best.
 	 */
-	public static int[] solveTSP_GreedyBeFS(int[] input) {
+	public static ArrayList<Integer> solveTSP_GreedyBeFS(ArrayList<Integer> input) {
 		// TODO: Iterate through the input array until all best neighbours are found.
-		int[] output = new int[cities.size()];
+		ArrayList<Integer> output = new ArrayList();
+		ArrayList<Integer> ignore = new ArrayList();
+		int bestNeighbour;
 
 		try {
+			// Starting point must always be the 1st locality. First step needs to be to find the Best Neighbour
+			// of the first locality.
+			ignore.add(input.get(0));
+			output.add(input.get(0));
+			bestNeighbour = getBestNeighbour(1, ignore);
+			ignore.add(bestNeighbour);
+			output.add(bestNeighbour);
+
+			// Loop for the number of elements in the input ArrayList less 2, since the first 2 Best Neighbours
+			// are found outside of this loop
+			for (int i = 2; i < input.size(); i++) {
+				bestNeighbour = getBestNeighbour(bestNeighbour, ignore);
+				if (bestNeighbour != 0) {
+					ignore.add(bestNeighbour);
+					output.add(bestNeighbour);
+				}
+			}
+			// Finally, add the 1st locality again as the destination. We'll get this from the first element of the
+			// 'ignore' ArrayList.
+			output.add(ignore.get(0));
 		} catch (Exception e) {
-			System.out.println("An error has occurred - " + e.getMessage());
+			System.out.println("Utilities.solveTSP_GreedyBeFS - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			return output;
@@ -311,31 +333,37 @@ public class Utilities {
 	/*
 	Finds the best neighbour to the city passed as input
 	 */
-	public static int getBestNeighbour(int fromCity, int[] ignoreCities) {
+	public static int getBestNeighbour(int fromCity, ArrayList<Integer> ignoreCities) {
 
-		int result = -1;
-		boolean toIgnore = false;
+		int result = 0;
 
 		// Copy the distances ArrayList into a new ArrayList 'neighbours'
-		ArrayList<Distance> neighbours = distances;
-		// Remove any elements with the fromCity specified as toCity in the 'neighbours' ArrayList
-		neighbours.removeIf(n -> (n.getToCity() == fromCity));
+		ArrayList<Distance> neighbours = new ArrayList();
+		for (int d = 0; d < distances.size(); d++) {
+			neighbours.add(distances.get(d));
+		}
+		// Remove any elements where the fromCity != fromCity
+		neighbours.removeIf(n -> (n.getFromCity() != fromCity));
+
 		// Remove elements where the toCity is listed in the ignoreCities array
-		for (int i = 0; i < ignoreCities.length; i++) {
-			int finalCityToIgnore = ignoreCities[i];
+		for (int i = 0; i < ignoreCities.size(); i++) {
+			int finalCityToIgnore = ignoreCities.get(i);
 			neighbours.removeIf(n -> (n.getToCity() == finalCityToIgnore));
 		}
+		// Trim the ArrayList after removing the 'ignore' localities
 		neighbours.trimToSize();
 
 		// Find the best neighbour
+		double shortestDistance = 999999999;
 		try {
 			for (int n = 0; n < neighbours.size(); n++) {
-				if ((result == -1) || (neighbours.get(n).getDistance() < result)) {
+				if ((shortestDistance == 999999999) || (neighbours.get(n).getDistance() < shortestDistance)) {
 					result = neighbours.get(n).getToCity();
+					shortestDistance = neighbours.get(n).getDistance();
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("An error has occurred - " + e.getMessage());
+			System.out.println("Utilities.getBestNeighbour - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return -1;
 		} finally {
