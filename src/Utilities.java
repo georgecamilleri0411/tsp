@@ -72,9 +72,27 @@ public class Utilities {
 			}
 			return 0;
 		} catch (Exception e) {
-			System.out.println("An error has occurred - " + e.getMessage());
+			System.out.println("Utilities.getDistance - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return 0;
+		}
+	}
+
+	/*
+	Calculates the distance of a whole 'journey'
+	 */
+	public static double getVoyageDistance(ArrayList<Integer> voyage) {
+		double output = 0;
+		try {
+			for (int v = 1; v < voyage.size(); v++) {
+				output += getDistance(voyage.get(v - 1), voyage.get(v));
+			}
+		} catch (Exception e) {
+			System.out.println("Utilities.getVoyageDistance - An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+			return 0;
+		} finally {
+			return output;
 		}
 	}
 
