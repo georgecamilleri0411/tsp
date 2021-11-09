@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import static java.lang.System.gc;
 import java.util.Scanner;
 
 public class FileReader {
@@ -9,6 +10,12 @@ public class FileReader {
 		String nextLine = "";
 
 		try {
+			// Clear ArrayLists Utilities.cities and Utilities.distances, and array Utilities.permutations
+			Utilities.cities.clear();
+			Utilities.distances.clear();
+			Utilities.permutations = null;
+			gc();
+
 			File textFile = new File(filePath);
 			if (textFile.exists()) {
 				Scanner fileReader = new Scanner(textFile);
@@ -33,16 +40,18 @@ public class FileReader {
 				}
 				fileReader.close();
 			} else {
-				System.out.println ("File not found (" + textFile.getAbsolutePath() + ")");
+				System.out.println ("FileReader.readFile - File not found (" + textFile.getAbsolutePath() + ")");
 			}
 
 			// Set the distance from all cities to all other cities
 			Utilities.setDistances();
 
 		} catch (FileNotFoundException e) {
-			System.out.println("An error has occurred - " + e.getMessage());
+			System.out.println("FileReader.readFile - An error has occurred - " + e.getMessage());
 			System.out.println("Line data: " + nextLine);
 			e.printStackTrace();
+		} finally {
+			gc();
 		}
 	}
 
@@ -78,9 +87,11 @@ public class FileReader {
 
 			return output;
 		} catch (Exception e) {
-			System.out.println("An error has occurred - " + e.getMessage());
+			System.out.println("FileReader.parseLine - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return null;
+		} finally {
+			gc();
 		}
 	}
 

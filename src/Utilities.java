@@ -1,4 +1,5 @@
 import java.lang.Math;
+import static java.lang.System.gc;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -27,10 +28,14 @@ public class Utilities {
 	// Get the number of different permutations possible
 	public static int getNumOfPermutations(int numOfCities) {
 		int permutations = 1;
-		for (int i = 1; i < (numOfCities - 1); i++) {
-			permutations += (i * permutations);
+		try {
+			for (int i = 1; i < (numOfCities - 1); i++) {
+				permutations += (i * permutations);
+			}
+		} finally {
+			gc();
+			return permutations;
 		}
-		return permutations;
 	}
 
 	/*
@@ -40,9 +45,11 @@ public class Utilities {
 		try {
 			return Math.hypot(Math.abs(y1 - y2), Math.abs(x1 - x2));
 		} catch (Exception e) {
-			System.out.println("An error has occurred - " + e.getMessage());
+			System.out.println("Utilities.getEuclideanDistance - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return 0;
+		} finally {
+			gc();
 		}
 	}
 
@@ -50,14 +57,22 @@ public class Utilities {
 	Sets the distance between all the cities
 	 */
 	public static void setDistances() {
-		for (City c1 : cities) {
-			for (City c2 : cities) {
-				if (c1 != c2) {
-					distances.add(new Distance(c1.getIndex(), c2.getIndex(),
-							getEuclideanDistance(c1.getX(), c1.getY(), c2.getX(), c2.getY())));
+		try {
+			for (City c1 : cities) {
+				for (City c2 : cities) {
+					if (c1 != c2) {
+						distances.add(new Distance(c1.getIndex(), c2.getIndex(),
+								getEuclideanDistance(c1.getX(), c1.getY(), c2.getX(), c2.getY())));
+					}
 				}
 			}
+		} catch (Exception e) {
+			System.out.println("Utilities.setDistances - An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			gc();
 		}
+
 	}
 
 	/*
@@ -75,6 +90,8 @@ public class Utilities {
 			System.out.println("Utilities.getDistance - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return 0;
+		} finally {
+			gc();
 		}
 	}
 
@@ -92,6 +109,7 @@ public class Utilities {
 			e.printStackTrace();
 			return 0;
 		} finally {
+			gc();
 			return output;
 		}
 	}
@@ -166,8 +184,10 @@ public class Utilities {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("An error has occurred - " + e.getMessage());
+			System.out.println("Utilities.generatePermutations2 - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
+		} finally {
+			gc();
 		}
 	}
 
@@ -242,6 +262,8 @@ public class Utilities {
 		} catch (Exception e) {
 			System.out.println("Utilities.generatePermutations - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
+		} finally {
+			gc();
 		}
 	}
 
@@ -306,6 +328,8 @@ public class Utilities {
 			System.out.println("Utilities.solveTSP_bruteForce - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return 0;
+		} finally {
+			gc();
 		}
 	}
 
@@ -314,7 +338,7 @@ public class Utilities {
 	that 'appears' to be the best.
 	 */
 	public static ArrayList<Integer> solveTSP_GreedyBeFS(ArrayList<Integer> input) {
-		// TODO: Iterate through the input array until all best neighbours are found.
+
 		ArrayList<Integer> output = new ArrayList();
 		ArrayList<Integer> ignore = new ArrayList();
 		int bestNeighbour;
@@ -344,6 +368,7 @@ public class Utilities {
 			System.out.println("Utilities.solveTSP_GreedyBeFS - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 		} finally {
+			gc();
 			return output;
 		}
 	}
@@ -385,6 +410,7 @@ public class Utilities {
 			e.printStackTrace();
 			return -1;
 		} finally {
+			gc();
 			return result;
 		}
 	}
