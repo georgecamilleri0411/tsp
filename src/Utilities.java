@@ -289,7 +289,7 @@ public class Utilities {
 
 			int from = 0;
 			int to = 0;
-			double cityDistance = 0;
+			//double cityDistance = 0;
 			for (int p = 0; p < permutations.length; p++) {
 				for (int v = 1; v < (cities.size() + 1); v++) {
 					// First iteration - just get the 'from' city
