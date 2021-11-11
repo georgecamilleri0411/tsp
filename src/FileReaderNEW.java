@@ -9,7 +9,7 @@ public class FileReaderNEW {
     /*
     Reads the file passed as argument and stores the data in a number of ArrayLists in class Localities.
      */
-    public static void readFile(String filePath) {
+    public static Localities readFile(String filePath) {
         String nextLine = "";
 
         // Local arraylists to store the locality data. These will then be passed to the Localities class.
@@ -49,19 +49,12 @@ public class FileReaderNEW {
                 System.out.println ("FileReader.readFile - File not found (" + textFile.getAbsolutePath() + ")");
             }
 
-            // Set the distance from all cities to all other cities
-            Utilities.setDistances();
-
         } catch (FileNotFoundException e) {
             System.out.println("FileReader.readFile - An error has occurred - " + e.getMessage());
             System.out.println("Line data: " + nextLine);
             e.printStackTrace();
         } finally {
-            lID.clear();
-            lX.clear();
-            lY.clear();
-
-            gc();
+            return new Localities(lID, lX, lY);
         }
     }
 
