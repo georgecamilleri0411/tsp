@@ -10,9 +10,10 @@ public class FileReader {
 		String nextLine = "";
 
 		try {
-			// Clear ArrayLists Utilities.cities and Utilities.distances_old, and array Utilities.permutations
+			// Clear ArrayLists Utilities.cities and Utilities.distances, and array Utilities.permutations
 			Utilities.cities.clear();
 			Utilities.distances.clear();
+			Utilities.distancesHash.clear();
 			Utilities.permutations = null;
 			gc();
 

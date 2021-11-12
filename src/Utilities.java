@@ -7,14 +7,13 @@ public class Utilities {
 	// ArrayList to store the coordinates
 	public static ArrayList<City> cities = new ArrayList<>();
 
-	// ArrayList to store the distance between each locality (city)
+	// ArrayList to store the distance between each locality (city), and another to hold a 'hash' to aid performance
 	public static ArrayList<Distance> distances = new ArrayList<>();
+	public static ArrayList<String> distancesHash = new ArrayList();
 
 	// Array to store the different permutations
-	public static int[][] permutations = new int[getNumOfPermutations(cities.size())][(getNumOfPermutations(cities.size()) + 1)];
-
-	// Array to store each permutation's total distance
-	public static double[] permutationDistance = new double[getNumOfPermutations(cities.size())];
+//	public static int[][] permutations = new int[getNumOfPermutations(cities.size())][(getNumOfPermutations(cities.size()) + 1)];
+	public static int[][] permutations = new int[getNumOfPermutations(cities.size())][(cities.size() + 1)];
 
 	// Array of Double storing whole voyage
 	public static double[] voyageDistance;
@@ -31,8 +30,12 @@ public class Utilities {
 	public static int getNumOfPermutations(int numOfCities) {
 		int permutations = 1;
 		try {
-			for (int i = 1; i < (numOfCities - 1); i++) {
-				permutations += (i * permutations);
+			if (numOfCities <= 10) {
+				for (int i = 1; i < (numOfCities - 1); i++) {
+					permutations += (i * permutations);
+				}
+			} else {
+				// Split permutations
 			}
 		} finally {
 			gc();
@@ -65,22 +68,38 @@ public class Utilities {
 					if (c1 != c2) {
 						distances.add(new Distance(c1.getIndex(), c2.getIndex(),
 								getEuclideanDistance(c1.getX(), c1.getY(), c2.getX(), c2.getY())));
+						distancesHash.add (c1.getIndex() + "|" + c2.getIndex());
 					}
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Utilities.setDistances - An error has occurred - " + e.getMessage());
+			System.out.println("Utilities.setDistances_old - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
+		} finally {
+			gc();
 		}
 	}
 
 	/*
-	Retrieves the distance between two localities
+	Retrieves the distance between two cities from the distances ArrayList
 	*/
 	public static double getDistance(int from, int to) {
 		try {
-			return getEuclideanDistance(cities.get(from).getX(), cities.get(from).getY()
-					, cities.get(to).getX(), cities.get(to).getY());
+			/* This finds the element in distances using distancesHash.indexOf  */
+			int result = distancesHash.indexOf(String.valueOf(from).trim() + "|" + String.valueOf(to).trim());
+			if (result != -1) {
+				return distances.get(result).getDistance();
+			}
+
+			/* This loops through the ArrayList
+			for (int d = 0; d < distances.size(); d++) {
+				if ((distances.get(d).getFromCity() == from) && distances.get(d).getToCity() == to) {
+					return distances.get(d).getDistance();
+				}
+			}
+			 */
+			return 0;
+
 		} catch (Exception e) {
 			System.out.println("Utilities.getDistance - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
@@ -110,32 +129,12 @@ public class Utilities {
 	}
 
 	/*
-	Calculates the distance of a whole 'journey'
- 	*/
-	public static double getVoyageDistance2(int[] voyage) {
-		double output = 0;
-		try {
-			for (int v = 1; v < voyage.length; v++) {
-				output += getDistance(voyage[(v - 1)], voyage[v]);
-			}
-		} catch (Exception e) {
-			System.out.println("Utilities.getVoyageDistance2 - An error has occurred - " + e.getMessage());
-			e.printStackTrace();
-			return 0;
-		} finally {
-			gc();
-			return output;
-		}
-	}
-
-	/*
 	Generates all permutations of the integer array passed as argument
 	 */
 	public static void generatePermutations (int[] input, boolean displayPermutations) {
 
 		try {
 			permutations = new int[getNumOfPermutations(cities.size())][(cities.size() + 1)];
-			permutationDistance = new double[getNumOfPermutations(cities.size())];
 
 			// Initialise an integer array for the (number of cities - 1), since city 1 will always start
 			int[] sequence = new int[cities.size() - 1];
@@ -155,16 +154,7 @@ public class Utilities {
 			// Add the last element (city 1 again)
 			permutations[p][(input.length + 1)] = cities.get(0).getIndex();
 
-			// The first permutation (default sequence) is ready.
-			// Calculate the distance for this permutation and increment counter.
-			int[] voyage = new int[cities.size()];
-			for (int i = 0; i < cities.size(); i++) {
-				voyage[i] = cities.get(i).getIndex();
-			}
-			voyage[(voyage.length - 1)] = cities.get(0).getIndex();
-			permutationDistance[p] = getVoyageDistance2(voyage);
-			//voyage = null;
-
+			// The first permutation (default sequence) is ready. Increment counter
 			p++;
 
 			// Use iterations to swap array elements
@@ -184,15 +174,6 @@ public class Utilities {
 						permutations[p][(input.length + 1)] = cities.get(0).getIndex();
 
 					}
-
-					// Calculate the distance for this permutation and increment counter
-					voyage = new int[cities.size()];
-					for (int j = 0; j < cities.size(); i++) {
-						voyage[j] = cities.get(j).getIndex();
-					}
-					voyage[(voyage.length - 1)] = cities.get(0).getIndex();
-					permutationDistance[p] = getVoyageDistance2(voyage);
-					//voyage = null;
 
 					// Increment the permutations counter
 					p++;
@@ -245,7 +226,6 @@ public class Utilities {
 
 			int from = 0;
 			int to = 0;
-
 			for (int p = 0; p < permutations.length; p++) {
 				for (int v = 1; v < (cities.size() + 1); v++) {
 					// First iteration - just get the 'from' city
@@ -336,18 +316,18 @@ public class Utilities {
 
 		int result = 0;
 
-		// Copy the distances_old ArrayList into a new ArrayList 'neighbours'
+		// Copy the distances ArrayList into a new ArrayList 'neighbours'
 		ArrayList<Distance> neighbours = new ArrayList();
 		for (int d = 0; d < distances.size(); d++) {
 			neighbours.add(distances.get(d));
 		}
 		// Remove any elements where the fromCity != fromCity
-		neighbours.removeIf(n -> (Integer.parseInt(n.getCityFromTo().split("|")[0]) != fromCity));
+		neighbours.removeIf(n -> (n.getFromCity() != fromCity));
 
 		// Remove elements where the toCity is listed in the ignoreCities array
 		for (int i = 0; i < ignoreCities.size(); i++) {
 			int finalCityToIgnore = ignoreCities.get(i);
-			neighbours.removeIf(n -> (Integer.parseInt(n.getCityFromTo().split("|")[1]) != finalCityToIgnore));
+			neighbours.removeIf(n -> (n.getToCity() == finalCityToIgnore));
 		}
 		// Trim the ArrayList after removing the 'ignore' localities
 		neighbours.trimToSize();
@@ -357,7 +337,7 @@ public class Utilities {
 		try {
 			for (int n = 0; n < neighbours.size(); n++) {
 				if ((shortestDistance == 999999999) || (neighbours.get(n).getDistance() < shortestDistance)) {
-					result = Integer.parseInt(neighbours.get(n).getCityFromTo().split("|")[1]);
+					result = neighbours.get(n).getToCity();
 					shortestDistance = neighbours.get(n).getDistance();
 				}
 			}
