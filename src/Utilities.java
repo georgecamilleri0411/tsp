@@ -18,14 +18,6 @@ public class Utilities {
 	// Array of Double storing whole voyage
 	public static double[] voyageDistance;
 
-	// Minimum distance (i.e. answer to the TSP)
-	public static double minimumDistance;
-
-	// Get the number of voyages the salesman must make to traverse all cities
-	public int getNumOfVoyages() {
-		return cities.size();
-	}
-
 	// Get the number of different permutations possible
 	public static int getNumOfPermutations(int numOfCities) {
 		int permutations = 1;
