@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import static java.lang.System.gc;
 
 /*
@@ -50,7 +51,6 @@ public class GeneticAlgorithm {
 			// Re-initialise the existing population
 			this.population = new String[populationNumber];
 
-
 			int p = 0;	// counter
 			String randomPop = "";	// Randomised population (pipe-delimited)
 
@@ -58,8 +58,23 @@ public class GeneticAlgorithm {
 			this.population[p] = convertListToPipeDelimited(null
 					, Utilities.solveTSP_GreedyBeFS(localities), false);
 
+			// Randomise the GreedyBeFS list until population number is reached
+			p++;
+			int[] visited = new int[(localities.size() - 1)];
+			visited[0] = localities.get(0);
+			ArrayList<Integer> sortedLoc = new ArrayList();
+			for (int l : localities) {
+				sortedLoc.add(l);
+			}
+			// Remove the first locality (starting point)
+			sortedLoc.remove(0);
+			sortedLoc.trimToSize();
+
+			int nextLocality;
+			int minLocality = sortedLoc.get(0);
+			int maxLocality = sortedLoc.get((sortedLoc.size() - 1));
 			while (p <= populationNumber) {
-				// Randomise (slightly) the GreedyBeFS list until population number is reached
+				nextLocality = getRandom(minLocality, maxLocality);
 				p++;
 			}
 
@@ -83,6 +98,31 @@ public class GeneticAlgorithm {
 			return -1;
 		} finally {
 			gc();
+		}
+	}
+
+	/*
+	Returns an array of Integer with the minimum and maximum values of an ArrayList
+	*/
+	private int[] getMinMax(ArrayList<Integer> input, boolean ignoreStartLocality) {
+		int[] output = new int[2];
+		try {
+			ArrayList<Integer> s = input;
+			// Sort the ArrayList
+			Collections.sort(s);
+			// Remove the first element if start locality needs to be ignored
+			if (ignoreStartLocality) {
+				s.remove(0);
+				s.trimToSize();
+			}
+			output[0] = s.get(0);
+			output[(output.length - 1)] = s.get((s.size() - 1));
+		} catch (Exception e) {
+			System.out.println("GeneticAlgorithm.getRandom - An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			gc();
+			return output;
 		}
 	}
 
