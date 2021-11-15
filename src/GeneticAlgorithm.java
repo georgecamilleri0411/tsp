@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import static java.lang.System.gc;
 
@@ -40,41 +41,47 @@ public class GeneticAlgorithm {
 	}
 
 	/*
-	Create the population using randomisation. This method will create random
+	Create the population. The first 2 parents will be the result of the
+	Greedy Best Neighbour and its reverse. This method will also create random
 	patterns of the locality numbers in between the start and end localities,
-	which is always locality 1.
-	One of the population (journeys) will be the Best Neighbour, since this is
-	proven to return a good (if not the best) journey.
+	which is always locality 1. Mutations will be made by swapping individual
+	cities with each other, because of the added complexity of each city needing
+	to feature only once.
+	https://www.lalena.com/AI/TSP/
 	*/
 	private void createPopulation (int populationNumber) {
 		try {
 			// Re-initialise the existing population
 			this.population = new String[populationNumber];
 
-			int p = 0;	// counter
-			String randomPop = "";	// Randomised population (pipe-delimited)
+			int p = 0;	// Population counter
 
-			// First element of population array will be the BeFS output
-			this.population[p] = convertListToPipeDelimited(null
+			// The first parent of population array will be the BeFS output
+			this.population[p] = convertListToCommaDelimited(null
 					, Utilities.solveTSP_GreedyBeFS(localities), false);
-
-			// Randomise the GreedyBeFS list until population number is reached
 			p++;
-			int[] visited = new int[(localities.size() - 1)];
-			visited[0] = localities.get(0);
-			ArrayList<Integer> sortedLoc = new ArrayList();
-			for (int l : localities) {
-				sortedLoc.add(l);
+			// The second parent will be the reverse of the BeFS output
+			String[] q = this.population[(p - 1)].trim().split((","));
+			this.population[p] = "";
+			for (int a = (q.length - 1); a >= 0; a--) {
+				this.population[p] += q[a];
+				if (a > 0) {
+					this.population[p] += ",";
+				}
 			}
-			// Remove the first locality (starting point)
-			sortedLoc.remove(0);
-			sortedLoc.trimToSize();
-
-			int nextLocality;
-			int minLocality = sortedLoc.get(0);
-			int maxLocality = sortedLoc.get((sortedLoc.size() - 1));
+			// Randomisation phase
+			p++;
+			String randomPop = "";	// Randomised population (pipe-delimited)
+			ArrayList<Integer> visited = new ArrayList();
+			for (int v : this.localities) {
+				visited.add(0);
+			}
+			visited.remove(0);
+			visited.trimToSize();
 			while (p <= populationNumber) {
-				nextLocality = getRandom(minLocality, maxLocality);
+				while (visited.indexOf(0) != -1) {
+				// Randomise
+				}
 				p++;
 			}
 
@@ -129,14 +136,14 @@ public class GeneticAlgorithm {
 	/*
 	Transforms an Integer array into a pipe-delimited String
 	*/
-	private String convertListToPipeDelimited (int[] inputA, ArrayList<Integer> inputAL, boolean useArray) {
+	private String convertListToCommaDelimited(int[] inputA, ArrayList<Integer> inputAL, boolean useArray) {
 		String output = "";
 		try {
 			if ((inputA != null) && useArray) {
 				for (int i : inputA) {
 					output += i;
 					if (i != (inputA[inputA.length - 1])) {
-						output += "|";
+						output += ",";
 					}
 				}
 			} else {
@@ -144,14 +151,14 @@ public class GeneticAlgorithm {
 					for (int i : inputAL) {
 						output += i;
 						if (i != (inputAL.get(inputAL.size() - 1))) {
-							output += "|";
+							output += ",";
 						}
 					}
 				}
 			}
 			return output;
 		} catch (Exception e) {
-			System.out.println("GeneticAlgorithm.convertListToPipeDelimited - An error has occurred - " + e.getMessage());
+			System.out.println("GeneticAlgorithm.convertListToCommaDelimited - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return "";
 		} finally {
