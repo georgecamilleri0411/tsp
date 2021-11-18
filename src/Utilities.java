@@ -22,13 +22,11 @@ public class Utilities {
 	public static int getNumOfPermutations(int numOfCities) {
 		int permutations = 1;
 		try {
-//			if (numOfCities <= 10) {
+			if (numOfCities <= 12) {	// Prevent memory overflows
 				for (int i = 1; i < (numOfCities - 1); i++) {
 					permutations += (i * permutations);
 				}
-//			} else {
-//				// Split permutations
-//			}
+			}
 		} finally {
 			gc();
 			return permutations;
