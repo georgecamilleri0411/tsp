@@ -60,31 +60,34 @@ public class GeneticAlgorithm {
 			this.population[p] = convertListToCommaDelimited(null
 					, Utilities.solveTSP_GreedyBeFS(localities), false);
 			p++;
-			// The second parent will be the reverse of the BeFS output
-			String[] q = this.population[(p - 1)].trim().split((","));
-			this.population[p] = "";
-			for (int a = (q.length - 1); a >= 0; a--) {
-				this.population[p] += q[a];
-				if (a > 0) {
-					this.population[p] += ",";
-				}
-			}
+
 			// Randomisation phase
-			p++;
-			String randomPop = "";	// Randomised population (pipe-delimited)
+			String randomPop = "";	// Randomised population (comma-delimited)
 			ArrayList<Integer> visited = new ArrayList();
+			// Clear the visited ArrayList
 			for (int v : this.localities) {
 				visited.add(0);
 			}
 			visited.remove(0);
 			visited.trimToSize();
-			while (p <= populationNumber) {
+			while (p < populationNumber) {
 				while (visited.indexOf(0) != -1) {
-				// Randomise
+					// Randomise
 				}
 				p++;
 			}
 
+			// The last parent will be the reverse of the BeFS output
+			if (p == populationNumber) {
+				String[] q = this.population[(0)].trim().split((","));
+				this.population[p] = "";
+				for (int a = (q.length - 1); a >= 0; a--) {
+					this.population[p] += q[a];
+					if (a > 0) {
+						this.population[p] += ",";
+					}
+				}
+			}
 		} catch (Exception e) {
 			System.out.println("GeneticAlgorithm.createPopulation - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
