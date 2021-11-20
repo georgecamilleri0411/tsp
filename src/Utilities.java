@@ -195,6 +195,17 @@ public class Utilities {
 	}
 
 	/*
+	Generates an ArrayList from an Array (both of Integer
+	*/
+	public static ArrayList<Integer> intArrayToIntArrayList(int[] input) {
+		ArrayList<Integer> output = new ArrayList();
+		for (int e = 0; e < input.length; e++) {
+			output.add (input[e]);
+		}
+		return output;
+	}
+
+	/*
 	Swaps two elements of the input array with each other
 	 */
 	private static void swap(int[] input, int e1, int e2) {

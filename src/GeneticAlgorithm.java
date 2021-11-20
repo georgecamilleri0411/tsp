@@ -13,30 +13,15 @@ Provides methods to solves the TSP using a Genetic Algorithm by:
 public class GeneticAlgorithm {
 
 	private long numOfPermutations = -1;
-	private ArrayList<Integer> localities = new ArrayList();
+	private int[] localities;
 	private String[] population;
 
 	public GeneticAlgorithm() {}
 
-	public GeneticAlgorithm(int[] localities) {
-	}
-
-	/*
-	Get the number of different permutations possible
-	 */
-	public static long getNumOfPermutations(int numOfCities) {
-		long permutations = 1;
-		try {
-			for (int i = 1; i < (numOfCities - 1); i++) {
-				permutations += (i * permutations);
-			}
-		} catch (Exception e) {
-			System.out.println("GeneticAlgorithm.getNumOfPermutations - An error has occurred - " + e.getMessage());
-			e.printStackTrace();
-			return 0;
-		} finally {
-			gc();
-			return permutations;
+	public GeneticAlgorithm(int[] cities) {
+		this.localities = new int[(cities.length)];
+		for (int c = 0; c < cities.length; c++) {
+			this.localities[c] = cities[c];
 		}
 	}
 
@@ -44,8 +29,10 @@ public class GeneticAlgorithm {
 	Create the population. The first 2 parents will be the result of the
 	Greedy Best Neighbour and its reverse. This method will also create random
 	patterns of the locality numbers in between the start and end localities,
-	which is always locality 1. Mutations will be made by swapping individual
-	cities with each other, because of the added complexity of each city needing
+	which is always locality 1. The data will be stored in comma-delimited string
+	to enable faster searching using contains() or indexOf().
+	Mutations will then be made by swapping individual cities with each other,
+	because of the added complexity of each city needing
 	to feature only once.
 	https://www.lalena.com/AI/TSP/
 	*/
@@ -58,20 +45,15 @@ public class GeneticAlgorithm {
 
 			// The first parent of population array will be the BeFS output
 			this.population[p] = convertListToCommaDelimited(null
-					, Utilities.solveTSP_GreedyBeFS(localities), false);
+					, Utilities.solveTSP_GreedyBeFS(Utilities.intArrayToIntArrayList(localities)), false);
 			p++;
 
 			// Randomisation phase
 			String randomPop = "";	// Randomised population (comma-delimited)
-			ArrayList<Integer> visited = new ArrayList();
-			// Clear the visited ArrayList
-			for (int v : this.localities) {
-				visited.add(0);
-			}
-			visited.remove(0);
-			visited.trimToSize();
+			String visited = "";	// Visited population (comma-delimited)
+			// Start the randomisation
 			while (p < populationNumber) {
-				while (visited.indexOf(0) != -1) {
+				while (visited.split(",").length < (localities.length - 1)) {
 					// Randomise
 				}
 				p++;
@@ -173,8 +155,9 @@ public class GeneticAlgorithm {
 	Solves the TSP using a Genetic Algorithm, by starting with a population of
 	journeys and evolving them into better (shorter) ones.
 	 */
-	public void solveTSP_GA () {
-
+	public int[] solveTSP_GA () {
+		int[] output = new int[(this.localities.length)];
+		return output;
 	}
 
 }
