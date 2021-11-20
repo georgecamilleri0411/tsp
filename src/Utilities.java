@@ -195,12 +195,29 @@ public class Utilities {
 	}
 
 	/*
-	Generates an ArrayList from an Array (both of Integer
+	Generates an Integer ArrayList from an Array (Integer or String)
 	*/
-	public static ArrayList<Integer> intArrayToIntArrayList(int[] input) {
+	public static ArrayList<Integer> convertArrayToIntArrayList(int[] intInput, String[] strInput, boolean fromInt) {
 		ArrayList<Integer> output = new ArrayList();
-		for (int e = 0; e < input.length; e++) {
-			output.add (input[e]);
+		if (fromInt) {
+			for (int e = 0; e < intInput.length; e++) {
+				output.add (intInput[e]);
+			}
+		} else {
+			for (int e = 0; e < strInput.length; e++) {
+				output.add (Integer.parseInt(strInput[e]));
+			}
+		}
+		return output;
+	}
+
+	/*
+	Generates an Integer Array from an ArrayList (Integer or String)
+	*/
+	public static int[] convertArrayListToIntArray(ArrayList<Integer> intInput, ArrayList<String> strInput, boolean fromInt) {
+		int[] output = new int[(intInput.size())];
+		for (int e = 0; e < intInput.size(); e++) {
+			output[e] = intInput.get(e).intValue();
 		}
 		return output;
 	}

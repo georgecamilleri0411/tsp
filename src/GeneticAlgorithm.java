@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import static java.lang.System.gc;
 
@@ -23,6 +22,12 @@ public class GeneticAlgorithm {
 		for (int c = 0; c < cities.length; c++) {
 			this.localities[c] = cities[c];
 		}
+		// TEST
+		createPopulation(10);
+		for (int x = 0; x < this.population.length; x++) {
+			System.out.println (this.population[x]);
+		}
+		// END TEST
 	}
 
 	/*
@@ -45,17 +50,34 @@ public class GeneticAlgorithm {
 
 			// The first parent of population array will be the BeFS output
 			this.population[p] = convertListToCommaDelimited(null
-					, Utilities.solveTSP_GreedyBeFS(Utilities.intArrayToIntArrayList(localities)), false);
+					, Utilities.solveTSP_GreedyBeFS(Utilities.convertArrayToIntArrayList(localities, null, true)), false);
 			p++;
 
 			// Randomisation phase
-			String randomPop = "";	// Randomised population (comma-delimited)
+			int r = 0;
+			int min = getMinMax(null, localities, true, false)[0];
+			int max = getMinMax(null, localities, true, false)[1];
 			String visited = "";	// Visited population (comma-delimited)
 			// Start the randomisation
 			while (p < populationNumber) {
 				while (visited.split(",").length < (localities.length - 1)) {
 					// Randomise
+					r = getRandom(min, max);
+					if (visited.length() > 1) {
+						if (Utilities.convertArrayToIntArrayList
+								(null, visited.split(","), false).indexOf(r) == -1)  {
+							if (visited.length() > 2) {
+								visited += ",";
+							}
+							visited += String.valueOf(r);
+						}
+
+					} else {
+						visited += String.valueOf(r);
+					}
+					//r = getRandom(min, max);
 				}
+				this.population[p] = localities[0] + "," + visited + "," + localities[0];
 				p++;
 			}
 
@@ -94,12 +116,20 @@ public class GeneticAlgorithm {
 	}
 
 	/*
-	Returns an array of Integer with the minimum and maximum values of an ArrayList
+	Returns an array of Integer with 2 elements containing minimum and maximum values of an ArrayList or an Array
 	*/
-	private int[] getMinMax(ArrayList<Integer> input, boolean ignoreStartLocality) {
+	private int[] getMinMax(ArrayList<Integer> inputAL, int[] inputA, boolean ignoreStartLocality, boolean useArrayList) {
 		int[] output = new int[2];
 		try {
-			ArrayList<Integer> s = input;
+			ArrayList<Integer> s = new ArrayList();
+			if (useArrayList) {
+				s = inputAL;
+			} else {
+				for (int e = 0; e < inputA.length; e++) {
+					s.add(inputA[e]);
+				}
+			}
+
 			// Sort the ArrayList
 			Collections.sort(s);
 			// Remove the first element if start locality needs to be ignored
@@ -125,17 +155,17 @@ public class GeneticAlgorithm {
 		String output = "";
 		try {
 			if ((inputA != null) && useArray) {
-				for (int i : inputA) {
-					output += i;
+				for (int i = 0; i < inputA.length; i++) {
+					output += inputA[i];
 					if (i != (inputA[inputA.length - 1])) {
 						output += ",";
 					}
 				}
 			} else {
 				if (inputAL != null) {
-					for (int i : inputAL) {
-						output += i;
-						if (i != (inputAL.get(inputAL.size() - 1))) {
+					for (int i = 0; i < inputAL.size(); i++) {
+						output += inputAL.get(i).toString();
+						if (i != (inputAL.size() - 1)) {
 							output += ",";
 						}
 					}
