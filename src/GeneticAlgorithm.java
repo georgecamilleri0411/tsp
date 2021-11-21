@@ -23,7 +23,7 @@ public class GeneticAlgorithm {
 			this.localities[c] = cities[c];
 		}
 		// TEST
-		createPopulation(10);
+		createPopulation(500, true);
 		for (int x = 0; x < this.population.length; x++) {
 			System.out.println (this.population[x]);
 		}
@@ -41,8 +41,14 @@ public class GeneticAlgorithm {
 	to feature only once.
 	https://www.lalena.com/AI/TSP/
 	*/
-	private void createPopulation (int populationNumber) {
+	private void createPopulation (int populationNumber, boolean noDuplicates) {
 		try {
+			// Check that the populationNumber does not exceed the number of permutations
+			// If it does, the total number of permutations will be used.
+			if (populationNumber > Utilities.getNumOfPermutations(Utilities.cities.size())) {
+				populationNumber = Utilities.getNumOfPermutations(Utilities.cities.size());
+			}
+
 			// Re-initialise the existing population
 			this.population = new String[populationNumber];
 
@@ -59,30 +65,35 @@ public class GeneticAlgorithm {
 			int max = getMinMax(null, localities, true, false)[1];
 			String visited = "";	// Visited population (comma-delimited)
 			// Start the randomisation
-			while (p < populationNumber) {
+			while (p < (populationNumber - 1)) {
 				while (visited.split(",").length < (localities.length - 1)) {
 					// Randomise
 					r = getRandom(min, max);
-					if (visited.length() > 1) {
+					if (visited.length() > 0) {
 						if (Utilities.convertArrayToIntArrayList
 								(null, visited.split(","), false).indexOf(r) == -1)  {
-							if (visited.length() > 2) {
-								visited += ",";
-							}
-							visited += String.valueOf(r);
+							visited += String.valueOf(r) + ",";
 						}
-
 					} else {
-						visited += String.valueOf(r);
+						visited += String.valueOf(r) + ",";
 					}
 					//r = getRandom(min, max);
 				}
-				this.population[p] = localities[0] + "," + visited + "," + localities[0];
-				p++;
+				visited = localities[0] + "," + visited + localities[0];
+				// If required, ensure that the generated gene has not been already added to the population
+				if ((!noDuplicates) || (noDuplicates && Utilities.convertArrayToStringArrayList(null, this.population
+						, false).indexOf(visited) == -1)) {
+					// Add the start and end locality to this gene
+					this.population[p] = visited;
+					visited = "";
+					p++;
+				} else {
+					visited = "";
+				}
 			}
 
 			// The last parent will be the reverse of the BeFS output
-			if (p == populationNumber) {
+			if (p == (populationNumber - 1)) {
 				String[] q = this.population[(0)].trim().split((","));
 				this.population[p] = "";
 				for (int a = (q.length - 1); a >= 0; a--) {

@@ -215,11 +215,55 @@ public class Utilities {
 	Generates an Integer Array from an ArrayList (Integer or String)
 	*/
 	public static int[] convertArrayListToIntArray(ArrayList<Integer> intInput, ArrayList<String> strInput, boolean fromInt) {
-		int[] output = new int[(intInput.size())];
-		for (int e = 0; e < intInput.size(); e++) {
-			output[e] = intInput.get(e).intValue();
+		if (fromInt) {
+			int[] output = new int[(intInput.size())];
+			for (int e = 0; e < intInput.size(); e++) {
+				output[e] = intInput.get(e).intValue();
+			}
+			return output;
+		} else {
+			int[] output = new int[(strInput.size())];
+			for (int e = 0; e < strInput.size(); e++) {
+				output[e] = Integer.parseInt(strInput.get(e));
+			}
+			return output;
+		}
+	}
+
+	/*
+	Generates a String ArrayList from an Array (Integer or String)
+	*/
+	public static ArrayList<String> convertArrayToStringArrayList(int[] intInput, String[] strInput, boolean fromInt) {
+		ArrayList<String> output = new ArrayList();
+		if (fromInt) {
+			for (int e = 0; e < intInput.length; e++) {
+				output.add (String.valueOf(intInput[e]));
+			}
+		} else {
+			for (int e = 0; e < strInput.length; e++) {
+				output.add (strInput[e]);
+			}
 		}
 		return output;
+	}
+
+	/*
+	Generates a String Array from an ArrayList (Integer or String)
+	*/
+	public static String[] convertArrayListToStringArray(ArrayList<Integer> intInput, ArrayList<String> strInput, boolean fromInt) {
+		if (fromInt) {
+			String[] output = new String[(intInput.size())];
+			for (int e = 0; e < intInput.size(); e++) {
+				output[e] = String.valueOf(intInput.get(e));
+			}
+			return output;
+		} else {
+			String[] output = new String[(strInput.size())];
+			for (int e = 0; e < strInput.size(); e++) {
+				output[e] = strInput.get(e);
+			}
+			return output;
+		}
 	}
 
 	/*
