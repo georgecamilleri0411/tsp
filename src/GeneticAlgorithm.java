@@ -45,8 +45,9 @@ public class GeneticAlgorithm {
 		try {
 			// Check that the populationNumber does not exceed the number of permutations
 			// If it does, the total number of permutations will be used.
-			if (populationNumber > Utilities.getNumOfPermutations(Utilities.cities.size())) {
-				populationNumber = Utilities.getNumOfPermutations(Utilities.cities.size());
+			if ((populationNumber > Utilities.getNumOfPermutations2(Utilities.cities.size()))
+					|| populationNumber > (Integer.MAX_VALUE)) {
+				populationNumber = (int) Utilities.getNumOfPermutations2(Utilities.cities.size());
 			}
 
 			// Re-initialise the existing population

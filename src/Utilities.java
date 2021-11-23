@@ -18,6 +18,23 @@ public class Utilities {
 	// Array of Double storing whole voyage
 	public static double[] voyageDistance;
 
+	// Get the number of different permutations possible. Maximum value is 2^63.
+	public static long getNumOfPermutations2(int numOfCities) {
+		long permutations = 1;
+		try {
+			if (numOfCities <= 20) {	// Prevent memory overflows
+				for (int i = 1; i < (numOfCities - 1); i++) {
+					permutations += (Integer.toUnsignedLong(i) * permutations);
+				}
+			} else {
+				permutations = (long) (Math.pow(2, 63) - 1);
+			}
+		} finally {
+			gc();
+			return permutations;
+		}
+	}
+
 	// Get the number of different permutations possible
 	public static int getNumOfPermutations(int numOfCities) {
 		int permutations = 1;
