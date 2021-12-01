@@ -284,7 +284,7 @@ public class Utilities {
 	}
 
 	/*
-	Swaps two elements of the input array with each other
+	Swaps two elements of an Integer array with each other
 	 */
 	private static void swap(int[] input, int e1, int e2) {
 		int tmp = input[e1];
