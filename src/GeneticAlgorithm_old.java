@@ -9,29 +9,44 @@ Provides methods to solves the TSP using a Genetic Algorithm by:
 	The randomised gene is stored in an array of String, and each new gene is compared
 	to the existing values in the array to ensure no duplicates.
  */
-public class GeneticAlgorithm {
+public class GeneticAlgorithm_old {
 
-	private long numOfPermutations = -1;
+	final int defaultPopulationSize = 32;
+	private double[] populationDistances = new double[defaultPopulationSize];
+	private double fittestGeneDistance = 0;
+	private int fittestGene = -1;
+	//private long numOfPermutations = -1;
 	private int[] localities;
 	private String[] population;
 
-	public GeneticAlgorithm() {}
+	public GeneticAlgorithm_old() {}
 
-	public GeneticAlgorithm(int[] cities) {
+	public GeneticAlgorithm_old(int[] cities) {
 		this.localities = new int[(cities.length)];
 		for (int c = 0; c < cities.length; c++) {
 			this.localities[c] = cities[c];
 		}
+		createInitialPopulation(defaultPopulationSize, true);
+
 		// TEST
-		createPopulation(500, true);
 		for (int x = 0; x < this.population.length; x++) {
 			System.out.println (this.population[x]);
 		}
+		System.out.println ("Fittest gene: " + this.population[this.fittestGene]);
+		System.out.println ("Best distance: " + this.fittestGeneDistance);
+
 		// END TEST
 	}
 
+	private void checkFitness(double populationDistance, int p) {
+		if ((this.fittestGeneDistance == 0) || (populationDistance < this.fittestGeneDistance)) {
+			this.fittestGene = p;
+			this.fittestGeneDistance = populationDistance;
+		}
+	}
+
 	/*
-	Create the population. The first 2 parents will be the result of the
+	Create the population. The first and last parents will be the result of the
 	Greedy Best Neighbour and its reverse. This method will also create random
 	patterns of the locality numbers in between the start and end localities,
 	which is always locality 1. The data will be stored in comma-delimited string
@@ -41,13 +56,14 @@ public class GeneticAlgorithm {
 	to feature only once.
 	https://www.lalena.com/AI/TSP/
 	*/
-	private void createPopulation (int populationNumber, boolean noDuplicates) {
+	private void createInitialPopulation(int populationNumber, boolean noDuplicates) {
 		try {
 			// Check that the populationNumber does not exceed the number of permutations
-			// If it does, the total number of permutations will be used.
+			// If it does, the default number of permutations will be used.
 			if ((populationNumber > Utilities.getNumOfPermutations2(Utilities.cities.size()))
 					|| populationNumber > (Integer.MAX_VALUE)) {
-				populationNumber = (int) Utilities.getNumOfPermutations2(Utilities.cities.size());
+				//populationNumber = (int) Utilities.getNumOfPermutations2(Utilities.cities.size());
+				populationNumber = this.defaultPopulationSize;
 			}
 
 			// Re-initialise the existing population
@@ -58,6 +74,14 @@ public class GeneticAlgorithm {
 			// The first parent of population array will be the BeFS output
 			this.population[p] = convertListToCommaDelimited(null
 					, Utilities.solveTSP_GreedyBeFS(Utilities.convertArrayToIntArrayList(localities, null, true)), false);
+
+			// Calculate and store the distance of this gene
+			this.populationDistances[p] =
+					Utilities.getVoyageDistance(
+							Utilities.convertArrayToIntArrayList(null, this.population[p].split(","),false));
+			// Check the fitness of this gene
+			this.checkFitness(this.populationDistances[p], p);
+
 			p++;
 
 			// Randomisation phase
@@ -87,6 +111,14 @@ public class GeneticAlgorithm {
 					// Add the start and end locality to this gene
 					this.population[p] = visited;
 					visited = "";
+
+					// Calculate and store the distance of this gene
+					this.populationDistances[p] =
+							Utilities.getVoyageDistance(
+									Utilities.convertArrayToIntArrayList(null, this.population[p].split(","),false));
+					// Check the fitness of this gene
+					this.checkFitness(this.populationDistances[p], p);
+
 					p++;
 				} else {
 					visited = "";
@@ -105,7 +137,7 @@ public class GeneticAlgorithm {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("GeneticAlgorithm.createPopulation - An error has occurred - " + e.getMessage());
+			System.out.println("GeneticAlgorithm_old.createPopulation - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			gc();
@@ -119,7 +151,7 @@ public class GeneticAlgorithm {
 		try {
 			return (int) ((Math.random() * ((max + 1) - min)) + min);
 		} catch (Exception e) {
-			System.out.println("GeneticAlgorithm.getRandom - An error has occurred - " + e.getMessage());
+			System.out.println("GeneticAlgorithm_old.getRandom - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return -1;
 		} finally {
@@ -152,7 +184,7 @@ public class GeneticAlgorithm {
 			output[0] = s.get(0);
 			output[(output.length - 1)] = s.get((s.size() - 1));
 		} catch (Exception e) {
-			System.out.println("GeneticAlgorithm.getRandom - An error has occurred - " + e.getMessage());
+			System.out.println("GeneticAlgorithm_old.getRandom - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			gc();
@@ -185,7 +217,7 @@ public class GeneticAlgorithm {
 			}
 			return output;
 		} catch (Exception e) {
-			System.out.println("GeneticAlgorithm.convertListToCommaDelimited - An error has occurred - " + e.getMessage());
+			System.out.println("GeneticAlgorithm_old.convertListToCommaDelimited - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return "";
 		} finally {

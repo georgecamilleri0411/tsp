@@ -1,0 +1,43 @@
+/Users/George/Library/Java/JavaVirtualMachines/openjdk-17.0.1/Contents/Home/bin/java -javaagent:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/212.5457.46/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=52159:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/212.5457.46/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Volumes/SSD128GB/Google Drive/Education/MDX BSc CS/Modules/7 - CST3170 - Artificial Intelligence/Courseworks/CW1/src/out/production/tsp tsp
+
+            TSP - Console Menu
+-------------------------------------------
+
+A: Load file
+B: Generate all permutations
+C: Solve TSP using Brute Force (exhaustive)
+D: Solve TSP using Best First Search (BeFS)
+
+-------------------------------------------
+
+X: Exit
+
+Please make your choice: 
+a
+Please enter the filename you wish to load: 
+test3atsp.txt
+File test3atsp.txt has been loaded. 9 localities loaded.
+
+Time taken: 0.440249 seconds (440248559 nano seconds).
+
+Please make your choice: 
+b
+40320 permutations generated.
+
+Time taken: 0.031257 seconds (31256452 nano seconds).
+
+Please make your choice: 
+d
+1 >> 7 >> 2 >> 9 >> 5 >> 4 >> 3 >> 6 >> 8 >> 1. Path found using Best First Search (Greedy Best Neighbour). 
+Total distance: 240.90737042335485
+
+Time taken: 0.078934 seconds (78933527 nano seconds).
+
+Please make your choice: 
+c
+Number of permutations: 40320
+1 >> 2 >> 9 >> 6 >> 8 >> 3 >> 4 >> 5 >> 7 >> 1. Total (shortest) distance using Brute Force: 229.50916652583456
+
+Time taken: 2309.068059 seconds (2309068058476 nano seconds).
+
+Please make your choice: 
