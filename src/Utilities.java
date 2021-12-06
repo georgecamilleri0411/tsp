@@ -1,6 +1,7 @@
 import java.lang.Math;
 import static java.lang.System.gc;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Utilities {
 
@@ -427,6 +428,54 @@ public class Utilities {
 		} finally {
 			gc();
 			return result;
+		}
+	}
+
+	/*
+	Returns a random number within the specified range
+	*/
+	public static int getRandom(int min, int max) {
+		try {
+			return (int) ((Math.random() * ((max + 1) - min)) + min);
+		} catch (Exception e) {
+			System.out.println("Utilities.getRandom - An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+			return -1;
+		} finally {
+			gc();
+		}
+	}
+
+	/*
+	Returns an array of Integer with 2 elements containing minimum and maximum values of an ArrayList or an Array
+	*/
+	public static int[] getMinMax(ArrayList<Integer> inputAL, int[] inputA, boolean ignoreStartLocality, boolean useArrayList) {
+		int[] output = new int[2];
+		try {
+			ArrayList<Integer> s = new ArrayList();
+			if (useArrayList) {
+				s = inputAL;
+			} else {
+				for (int e = 0; e < inputA.length; e++) {
+					s.add(inputA[e]);
+				}
+			}
+
+			// Sort the ArrayList
+			Collections.sort(s);
+			// Remove the first element if start locality needs to be ignored
+			if (ignoreStartLocality) {
+				s.remove(0);
+				s.trimToSize();
+			}
+			output[0] = s.get(0);
+			output[(output.length - 1)] = s.get((s.size() - 1));
+		} catch (Exception e) {
+			System.out.println("Utilities.getRandom - An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			gc();
+			return output;
 		}
 	}
 
