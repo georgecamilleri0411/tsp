@@ -125,7 +125,7 @@ public class Chromosome {
 			}
 			return output;
 		} catch (Exception e) {
-			System.out.println("GeneticAlgorithm_old.convertListToCommaDelimited - An error has occurred - " + e.getMessage());
+			System.out.println("Chromosome.convertListToCommaDelimited - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 			return "";
 		} finally {

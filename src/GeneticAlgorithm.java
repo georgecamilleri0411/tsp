@@ -18,6 +18,34 @@ public class GeneticAlgorithm {
 	}
 
 	/*
+	Evolve the population
+	 */
+	public static Population evolve(Population pop) {
+		Population nextPopulation = new Population(pop.numberOfChromosomes(), genes);
+
+		// Save the best chromosome
+		if (useElitism) {
+			nextPopulation.setChromosome(0, pop.getFittestChromosome());
+		}
+
+		// Do the crossover
+		for (int c = (useElitism ? 1 : 0); c < pop.numberOfChromosomes(); c++) {
+			Chromosome c1 = populationGroup(pop);
+			Chromosome c2 = populationGroup(pop);
+			Chromosome newC = crossover(c1, c2);
+			nextPopulation.setChromosome(c, newC);
+		}
+
+		// Do the mutation
+		for (int m = (useElitism ? 1 : 0); m < nextPopulation.numberOfChromosomes(); m++) {
+			mutate(nextPopulation.getChromosome(m));
+		}
+
+		return nextPopulation;
+
+	}
+
+	/*
 	Run the crossover process by randomising a value between 0 and 1,
 	comparing it to the crossoverRate (0.5) to choose which chromosome
 	to use. The crossoverRate can be optimised by changing its value to

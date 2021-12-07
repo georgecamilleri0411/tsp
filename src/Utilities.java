@@ -81,7 +81,7 @@ public class Utilities {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Utilities.setDistances_old - An error has occurred - " + e.getMessage());
+			System.out.println("Utilities.setDistances - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			gc();
