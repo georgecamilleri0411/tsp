@@ -5,7 +5,7 @@ public class GeneticAlgorithm {
 	 */
 	private static final double crossoverRate = 0.5;
 	private static final double mutationRate = 0.015;
-	private static final int popSize = 5;
+	private static final int popGroupSize = 5;
 	private static final boolean useElitism = true;
 
 	private static String[] genes;
@@ -54,13 +54,16 @@ public class GeneticAlgorithm {
 	}
 
 	/*
-	Select chromosomes for crossover and returns the fittest one
+	Select chromosomes into a group and return the fittest one, for 'mating' and crossing over.
 	 */
-	private static Chromosome findFittestChromosome (Population pop) {
+	private static Chromosome populationGroup (Population pop) {
 		// Create the population
-		Population newPop = new Population (popSize, genes);
-		// CONTINUE HERE
+		Population newPop = new Population (popGroupSize, genes);
+		for (int p = 0; p < popGroupSize; p++) {
+			newPop.setChromosome(p, pop.getChromosome((int) Math.random() * pop.numberOfChromosomes()));
+		}
 
+		Chromosome fittestOne = newPop.getFittestChromosome();
 		return newPop.getFittestChromosome();
 	}
 

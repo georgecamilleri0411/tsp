@@ -18,6 +18,13 @@ public class Population {
 	}
 
 	/*
+	Sets a chromosome at the element specified
+	 */
+	public void setChromosome(int _idxElement, Chromosome _chromosome) {
+		chromosomes[_idxElement] = _chromosome;
+	}
+
+	/*
 	Returns the fittest chromosome from the chromosomes array
 	 */
 	public Chromosome getFittestChromosome() {
@@ -29,6 +36,13 @@ public class Population {
 			}
 		}
 		return fittestChromosome;
+	}
+
+	/*
+	Returns the number of chromosomes in this population
+	 */
+	public int numberOfChromosomes() {
+		return this.chromosomes.length;
 	}
 
 }
