@@ -216,3 +216,10 @@ Number of permutations: 40320
 Time taken: 2623.34096 seconds (2623340959259 nano seconds).
 
 Please make your choice:
+
+---------------------------------------------------------------------------------------------------
+BruteForce (new)
+
+1 > 7 > 8 > 5 > 6 > 4 > 3 > 2 > 9 > 1 :: Total distance: 130.73203568034788
+
+Time taken: 477.993349 seconds (477993348538 nano seconds).

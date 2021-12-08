@@ -6,6 +6,7 @@ import static java.lang.System.gc;
 public class BruteForce {
 
 	private ArrayList<City> cityList = new ArrayList();
+	private ArrayList<Integer> _cityList = new ArrayList();
 	// ArrayLists to store the distances between each city. 2nd ArrayList stores a 'hash' to aid performance
 	public static ArrayList<Distance> distances = new ArrayList<>();
 	public static ArrayList<String> distancesHash = new ArrayList();
@@ -15,6 +16,9 @@ public class BruteForce {
 
 	public BruteForce (ArrayList<City> _cityList) {
 		this.cityList = _cityList;
+		for (int c = 0; c < this.cityList.size(); c++) {
+			this._cityList.add(this.cityList.get(c).getIndex());
+		}
 		setDistances();
 	}
 
@@ -23,6 +27,10 @@ public class BruteForce {
  	*/
 	public void setDistances() {
 		try {
+			distances.clear();
+			distances.trimToSize();
+			distancesHash.clear();
+			distancesHash.trimToSize();
 			for (City c1 : cityList) {
 				for (City c2 : cityList) {
 					if (c1 != c2) {
@@ -81,7 +89,7 @@ public class BruteForce {
 	}
 
 	/*
-	Swaps two elements of an Integer array with each other
+	Swaps two elements of an Integer Array with each other
 	 */
 	private void swap(int[] input, int e1, int e2) {
 		int tmp = input[e1];
@@ -89,13 +97,67 @@ public class BruteForce {
 		input[e2] = tmp;
 	}
 
-	public ArrayList<City> solveBruteForce () {
-		ArrayList<City> solution = new ArrayList<>();
+	/*
+	Solve the TSP using Brute Force. ArrayList _cityList must contain the list of
+	cities read from the training/test file in order.
+	 */
+	public ArrayList<Integer> solveBruteForce () {
+		ArrayList<Integer> solution = new ArrayList<>();
+		ArrayList<Integer> nextJourney = new ArrayList<>();
 
-		for (BigInteger c = BigInteger.ZERO; c.compareTo((factorial(this.cityList.size()))) == -1; c.add(BigInteger.ONE)) {
+		// Set up the initial solution (all cities in order, including the start and end cities)
+		for (int s = 0; s < this.cityList.size(); s++) {
+			solution.add(this.cityList.get(s).getIndex());
+		}
+		solution.add(this.cityList.get(0).getIndex());
+		double shortestDistance = getJourneyDistance(solution);
 
+		// Set up an Integer array containing the cities excluding the stand and end cities
+		int[] input = new int[solution.size() - 2];
+		for (int i = 0; i < (solution.size() - 2); i++) {
+			input[i] = solution.get(i + 1).intValue();
 		}
 
+		// Initialise an integer array for the (number of cities - 1), since city 1 will always start
+		int[] sequence = new int[this._cityList.size() - 1];
+		int i;
+		BigInteger p = BigInteger.ONE;
+		BigInteger maxPerms = factorial(this.cityList.size() - 1);
+
+		// Loop through all permutations to generate all possible routes
+		// Use iterations to swap array elements
+		i = 1; // The start and end points will be skipped
+
+		while (i < sequence.length) {
+			if (sequence[i] < i) {
+				swap (input, i % 2 == 0 ? 0 : sequence[i], i);
+				if (p.compareTo(factorial(this.cityList.size() - 1)) <= 0) {
+					nextJourney.clear();
+					nextJourney.trimToSize();
+					// Populate nextJourney with the newly-generated route
+					nextJourney.add(this.cityList.get(0).getIndex());	// Start location
+					for (int j = 0; j < (this._cityList.size() - 1); j++) {
+						nextJourney.add(input[j]);
+					}
+					nextJourney.add(this.cityList.get(0).getIndex());	// End location
+					// Check if the  new journey is a shorter route that the solution route
+					if (getJourneyDistance(nextJourney) < shortestDistance) {
+						solution.clear();
+						solution.trimToSize();
+						for (int s = 0; s < nextJourney.size(); s++) {
+							solution.add(nextJourney.get(s).intValue());
+						}
+						shortestDistance = getJourneyDistance(solution);
+					}
+				}
+				p = p.add(BigInteger.ONE);
+				sequence[i]++;
+				i = 0;
+			} else {
+				sequence[i] = 0;
+				i++;
+			}
+		}
 		return solution;
 	}
 
