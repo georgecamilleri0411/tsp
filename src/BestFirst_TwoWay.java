@@ -13,6 +13,7 @@ public class BestFirst_TwoWay {
 
 	public BestFirst_TwoWay (ArrayList<City> _cityList) {
 		this.cityList = _cityList;
+		setDistances();
 		// Populate the solution ArrayList with the starting and ending points.
 		// Middle elements will be populated with 0.
 		_solution.add(this.cityList.get(0).getIndex());
@@ -31,12 +32,10 @@ public class BestFirst_TwoWay {
 			if (leftSide) {
 				// Populate the next city on the left-hand side of the ArrayList
 				nextElement = this._solution.indexOf(0);
-				System.out.println("left side: " + nextElement);
 				this._solution.set(nextElement, getBestNeighbour(this._solution.get(nextElement - 1)));
 			} else {
 				// Populate the next city on the right-hand side of the ArrayList
 				nextElement = this._solution.lastIndexOf(0);
-				System.out.println("right side: " + nextElement);
 				this._solution.set(nextElement, getBestNeighbour(this._solution.get(nextElement + 1)));
 			}
 			leftSide = !leftSide;
@@ -119,6 +118,32 @@ public class BestFirst_TwoWay {
 		} finally {
 			gc();
 			return output;
+		}
+	}
+
+	/*
+	Sets the distance between all the cities
+ 	*/
+	public void setDistances() {
+		try {
+			distances.clear();
+			distances.trimToSize();
+			distancesHash.clear();
+			distancesHash.trimToSize();
+			for (City c1 : cityList) {
+				for (City c2 : cityList) {
+					if (c1 != c2) {
+						distances.add(new Distance(c1.getIndex(), c2.getIndex(),
+								Utilities.getEuclideanDistance(c1.getX(), c1.getY(), c2.getX(), c2.getY())));
+						distancesHash.add (c1.getIndex() + "|" + c2.getIndex());
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("BestFirst_TwoWay.setDistances - An error has occurred - " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			gc();
 		}
 	}
 

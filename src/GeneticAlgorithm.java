@@ -3,42 +3,36 @@ public class GeneticAlgorithm {
 	/*
 	Crossover and mutation settings
 	 */
-	private static final double crossoverRate = 0.5;
 	private static final double mutationRate = 0.015;
 	private static final int popGroupSize = 5;
 	private static final boolean useElitism = true;
 
-	private static String[] genes;
-
-	private static void setGenes() {
-		genes = new String[(Utilities.cities.size())];
-		for (int l = 0; l < Utilities.cities.size(); l++) {
-			genes[l] = String.valueOf(Utilities.cities.get(l).getIndex());
-		}
-	}
-
 	/*
 	Evolve the population
-	 */
+ 	*/
 	public static Population evolve(Population pop) {
-		Population nextPopulation = new Population(pop.numberOfChromosomes(), genes);
+		Population nextPopulation = new Population(pop.populationSize(), false);
 
-		// Save the best chromosome
+		// If useElitism is set to True, and it will be, the fittest journey will not be discarded.
+		int elitism = 0;
 		if (useElitism) {
-			nextPopulation.setChromosome(0, pop.getFittestChromosome());
+			nextPopulation.saveJourney(0, pop.getFittestJourney());
+			elitism = 1;
 		}
 
-		// Do the crossover
-		for (int c = (useElitism ? 1 : 0); c < pop.numberOfChromosomes(); c++) {
-			Chromosome c1 = populationGroup(pop);
-			Chromosome c2 = populationGroup(pop);
-			Chromosome newC = crossover(c1, c2);
-			nextPopulation.setChromosome(c, newC);
+		// Crossover the population
+		for (int c = elitism; c < nextPopulation.populationSize(); c++) {
+			// Mate two journeys to create an offspring
+			GA_Journey parent1 = candidateSelection(pop);
+			GA_Journey parent2 = candidateSelection(pop);
+			GA_Journey offspring = crossover(parent1, parent2);
+			// Add the offspring to the next population
+			nextPopulation.saveJourney(c, offspring);;
 		}
 
-		// Do the mutation
-		for (int m = (useElitism ? 1 : 0); m < nextPopulation.numberOfChromosomes(); m++) {
-			mutate(nextPopulation.getChromosome(m));
+		// Mutate this next population by swapping two cities randomly
+		for (int e = elitism; e < nextPopulation.populationSize(); e++) {
+			mutate(nextPopulation.getJourney(e));
 		}
 
 		return nextPopulation;
@@ -51,48 +45,84 @@ public class GeneticAlgorithm {
 	to use. The crossoverRate can be optimised by changing its value to
 	create a bias in favour of the chromosome with the better fitness.
 	 */
-	private static Chromosome crossover (Chromosome chromosome1, Chromosome chromosome2) {
-		// Populate the genes array with the list of cities;
-		setGenes();
+	private static GA_Journey crossover (GA_Journey parent1, GA_Journey parent2) {
+		// Create the offspring journey
+		GA_Journey offspring = new GA_Journey();
 
-		Chromosome newChromosome = new Chromosome(genes);
-		for (int g = 0; g < chromosome1.getChromosomeSize(); g++) {
-			// Create the evolved Chromosome
-			if (Math.random() <= crossoverRate) {
-				newChromosome.setGene(g, chromosome1.getGenes()[g]);
-			} else {
-				newChromosome.setGene(g, chromosome2.getGenes()[g]);
+		// Set parent1 start and end positions
+		int startPosition = (int) (Math.random() * parent1.journeyCities());
+		int endPosition = (int) (Math.random() * parent1.journeyCities());
+
+		// Do the crossover
+		// Parent1
+//		for (int p = 1; p < (offspring.journeyCities() - 1); p++) {
+		for (int p = 0; p < (offspring.journeyCities()); p++) {
+			if ((startPosition < endPosition) && (p > startPosition) && (p < endPosition)) {
+//				if (!offspring.cityExists(parent1.getJourneyCity(p))) {
+					offspring.placeCity(p, parent1.getJourneyCity(p));
+//				}
+			} else if (startPosition > endPosition) {
+				if (!((p < startPosition) && (p > endPosition))) {
+//					if (!offspring.cityExists(parent1.getJourneyCity(p))) {
+						offspring.placeCity(p, parent1.getJourneyCity(p));
+//					}
+				}
 			}
 		}
-		return newChromosome;
+
+		// Parent 2
+		for (int p = 0; p < parent2.journeyCities(); p++) {
+//		for (int p = 1; p < (parent2.journeyCities() - 1); p++) {
+			// Check if the city exists in the offspring journey. If not, add it.
+			if (!offspring.cityExists(parent2.getJourneyCity(p))) {
+				// Find an unused element in the offspring journey
+				for (int o = 0; o < offspring.journeyCities(); o++) {
+					if (offspring.getJourneyCity(o) == null) {
+						offspring.placeCity(o, parent2.getJourneyCity(p));
+						break;
+					}
+				}
+			}
+		}
+		return offspring;
 	}
 
 	/*
-	Mutate a chromosome by switching 2 genes randomly (stand/end genes are excluded)
+	Mutate a GAJourney by switching 2 genes randomly (stand/end genes are excluded)
 	 */
-	private static void mutate (Chromosome chromosome) {
-		// Generate 2 random numbers between 1 and the (chromosome length -2)
-		int gene1 = Utilities.getRandom (1, (chromosome.getChromosomeSize() - 1));
-		int gene2 = 0;
-		while (gene2 != 0 && gene2 != gene1) {
-			gene2 = Utilities.getRandom (1, (chromosome.getChromosomeSize() - 1));
+	private static void mutate (GA_Journey GAJourney) {
+//		for (int c1 = 0; c1 < GAJourney.journeyCities(); c1++) {
+		for (int c1 = 1; c1 < (GAJourney.journeyCities() - 1); c1++) {
+			if (Math.random() < mutationRate) {
+				int c2 = (int) (Math.random() * GAJourney.journeyCities());
+				while ((c2 != 0) && (c2 != c1) && (c2 < (GAJourney.journeyCities() - 1))) {
+					c2 = (int) (Math.random() * GAJourney.journeyCities());
+				}
+
+				// Cities to mutate (swap)
+				GA_City city1 = GAJourney.getJourneyCity(c1);
+				GA_City city2 = GAJourney.getJourneyCity(c2);
+				GAJourney.placeCity(c1, city2);
+				GAJourney.placeCity(c2, city1);
+			}
 		}
-		chromosome.setGene(gene1, chromosome.getGenes()[gene2]);
-		chromosome.setGene(gene2, chromosome.getGenes()[gene1]);
 	}
 
 	/*
-	Select chromosomes into a group and return the fittest one, for 'mating' and crossing over.
+	Retrieve a candidate journey for crossover
 	 */
-	private static Chromosome populationGroup (Population pop) {
-		// Create the population
-		Population newPop = new Population (popGroupSize, genes);
-		for (int p = 0; p < popGroupSize; p++) {
-			newPop.setChromosome(p, pop.getChromosome((int) Math.random() * pop.numberOfChromosomes()));
-		}
+	private static GA_Journey candidateSelection(Population pop) {
+		// Create a population
+		Population selection = new Population(popGroupSize, false);
 
-		Chromosome fittestOne = newPop.getFittestChromosome();
-		return newPop.getFittestChromosome();
+		// Add random candidate journeys
+		for (int g = 0; g < popGroupSize; g++) {
+			int r = (int) (Math.random() * pop.populationSize());
+			selection.saveJourney(g, pop.getJourney(r));
+		}
+		// Select the fittest (i.e. shortest) journey
+		GA_Journey fittestJ = selection.getFittestJourney();
+		return fittestJ;
 	}
 
 }

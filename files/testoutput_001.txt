@@ -1,4 +1,4 @@
-/Users/George/Library/Java/JavaVirtualMachines/openjdk-17.0.1/Contents/Home/bin/java -javaagent:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/212.5457.46/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=52159:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/212.5457.46/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Volumes/SSD128GB/Google Drive/Education/MDX BSc CS/Modules/7 - CST3170 - Artificial Intelligence/Courseworks/CW1/src/out/production/tsp tsp
+/Users/George/Library/Java/JavaVirtualMachines/openjdk-17.0.1/Contents/Home/bin/java -javaagent:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=52005:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Volumes/SSD128GB/Google Drive/Education/MDX BSc CS/Modules/7 - CST3170 - Artificial Intelligence/Courseworks/CW1/src/out/production/tsp tsp
 
             TSP - Console Menu
 -------------------------------------------
@@ -7,52 +7,8 @@ A: Load file
 B: Generate all permutations
 C: Solve TSP using Brute Force (exhaustive)
 D: Solve TSP using Best First Search (BeFS)
-
--------------------------------------------
-
-X: Exit
-
-Please make your choice: 
-a
-Please enter the filename you wish to load: 
-test3atsp.txt
-File test3atsp.txt has been loaded. 9 localities loaded.
-
-Time taken: 0.440249 seconds (440248559 nano seconds).
-
-Please make your choice: 
-b
-40320 permutations generated.
-
-Time taken: 0.031257 seconds (31256452 nano seconds).
-
-Please make your choice: 
-d
-1 >> 7 >> 2 >> 9 >> 5 >> 4 >> 3 >> 6 >> 8 >> 1. Path found using Best First Search (Greedy Best Neighbour). 
-Total distance: 240.90737042335485
-
-Time taken: 0.078934 seconds (78933527 nano seconds).
-
-Please make your choice: 
-c
-Number of permutations: 40320
-1 >> 2 >> 9 >> 6 >> 8 >> 3 >> 4 >> 5 >> 7 >> 1. Total (shortest) distance using Brute Force: 229.50916652583456
-
-Time taken: 2309.068059 seconds (2309068058476 nano seconds).
-
-Please make your choice: 
-
----------------------------------------------------------------------------------------------------
-/Users/George/Library/Java/JavaVirtualMachines/openjdk-17.0.1/Contents/Home/bin/java -javaagent:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=50749:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Volumes/SSD128GB/Google Drive/Education/MDX BSc CS/Modules/7 - CST3170 - Artificial Intelligence/Courseworks/CW1/src/out/production/tsp tsp
-
-            TSP - Console Menu
--------------------------------------------
-
-A: Load file
-B: Generate all permutations
-C: Solve TSP using Brute Force (exhaustive)
-D: Solve TSP using Best First Search (BeFS)
-E: Solve TSP using Genetic Algorithm (GA)
+E: Solve TSP using 2-Way Best First Search (BeFS)
+G: Solve TSP using Genetic Algorithm (GA)
 
 -------------------------------------------
 
@@ -61,165 +17,98 @@ X: Exit
 Please make your choice:
 a
 Please enter the filename you wish to load:
-test3atsp.txt
-File test3atsp.txt has been loaded. 9 localities loaded.
+test1tsp.txt
+File test1tsp.txt has been loaded. 4 localities loaded.
 
-Time taken: 0.381192 seconds (381191434 nano seconds).
-
-Please make your choice:
-e
-Candidate chromosome: 1,9,5,8,6,7,3,4,2,1
-Candidate chromosome distance: 310.43816809752144
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.7760236825894292
-
-Please make your choice:
-e
-Candidate chromosome: 1,2,7,4,5,3,9,6,8,1
-Candidate chromosome distance: 350.52302683924904
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.6872797276563395
-
-Please make your choice:
-e
-Candidate chromosome: 1,4,6,8,9,7,2,5,3,1
-Candidate chromosome distance: 386.05682857612385
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.6240204876361927
-
-Please make your choice:
-e
-Candidate chromosome: 1,2,6,5,9,8,4,7,3,1
-Candidate chromosome distance: 463.91151809161295
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.5192959455164479
-
-Please make your choice:
-e
-Candidate chromosome: 1,8,5,6,2,4,3,9,7,1
-Candidate chromosome distance: 366.8423105906765
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.656705520242347
-
-Please make your choice:
-e
-Candidate chromosome: 1,5,8,3,2,6,9,4,7,1
-Candidate chromosome distance: 460.85459997500567
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.5227405138983541
-
-Please make your choice:
-e
-Candidate chromosome: 1,3,4,9,6,2,7,8,5,1
-Candidate chromosome distance: 476.57020228085474
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.5055023777617177
-
-Please make your choice:
-e
-Candidate chromosome: 1,5,2,3,4,9,6,8,7,1
-Candidate chromosome distance: 356.22556014152866
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.676277609971733
-
-Please make your choice:
-e
-Candidate chromosome: 1,7,5,6,3,9,8,4,2,1
-Candidate chromosome distance: 385.44788972235534
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.6250063286035488
-
-Please make your choice:
-e
-Candidate chromosome: 1,4,8,2,5,9,3,7,6,1
-Candidate chromosome distance: 548.9301874955079
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.43886704705109025
-
-Please make your choice:
-e
-Candidate chromosome: 1,3,2,7,4,6,8,9,5,1
-Candidate chromosome distance: 325.0106944106775
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.7412290566628209
-
-Please make your choice:
-e
-Candidate chromosome: 1,9,3,4,7,2,5,8,6,1
-Candidate chromosome distance: 315.81844958309
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.7628033471172289
-
-Please make your choice:
-e
-Candidate chromosome: 1,4,2,3,7,8,9,6,5,1
-Candidate chromosome distance: 491.3425055260404
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.49030435534054795
-
-Please make your choice:
-e
-Candidate chromosome: 1,9,5,2,8,6,4,7,3,1
-Candidate chromosome distance: 360.95598110882656
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.6674148179600946
-
-Please make your choice:
-e
-Candidate chromosome: 1,2,3,5,8,9,4,6,7,1
-Candidate chromosome distance: 403.59433355139845
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.5969047392303759
-
-Please make your choice:
-e
-Candidate chromosome: 1,2,3,9,8,5,7,4,6,1
-Candidate chromosome distance: 461.880240113829
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.5215797289011194
-
-Please make your choice:
-e
-Candidate chromosome: 1,8,2,3,7,4,6,5,9,1
-Candidate chromosome distance: 371.74259165259036
-Solution (benchmark) chromosome: 1,7,2,9,5,4,3,6,8,1
-Solution (benchmark) chromosome distance: 240.90737042335485
-Fitness: 0.6480488806848727
+Time taken: 0.087553 seconds (87552897 nano seconds).
 
 Please make your choice:
 b
-40320 permutations generated.
+6 permutations generated.
 
-Time taken: 0.027483 seconds (27482591 nano seconds).
+Time taken: 0.014188 seconds (14187302 nano seconds).
 
 Please make your choice:
 c
-Number of permutations: 40320
-1 >> 2 >> 9 >> 6 >> 8 >> 3 >> 4 >> 5 >> 7 >> 1. Total (shortest) distance using Brute Force: 229.50916652583456
+Solution found!
+1 > 3 > 2 > 4 > 1 :: Total distance: 24.293023070189598
 
-Time taken: 2623.34096 seconds (2623340959259 nano seconds).
+Time taken: 0.139835 seconds (139834751 nano seconds).
 
 Please make your choice:
+d
+1 >> 2 >> 4 >> 3 >> 1. Path found using Best First Search (Greedy Best Neighbour).
+Total distance: 27.426221892248417
 
----------------------------------------------------------------------------------------------------
-BruteForce (new)
+Time taken: 0.025369 seconds (25368317 nano seconds).
 
-1 > 7 > 8 > 5 > 6 > 4 > 3 > 2 > 9 > 1 :: Total distance: 130.73203568034788
+Please make your choice:
+e
+1 >> 2 >> 3 >> 4 >> 1. Path found using 2-Way Best First Search (Greedy Best Neighbour).
+Total distance: 26.069053496924262
 
-Time taken: 477.993349 seconds (477993348538 nano seconds).
+Time taken: 0.047674 seconds (47673265 nano seconds).
+
+Please make your choice:
+x
+
+Process finished with exit code 0
+
+----------------------------------------------------------------------------------------------------
+/Users/George/Library/Java/JavaVirtualMachines/openjdk-17.0.1/Contents/Home/bin/java -javaagent:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=52012:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Volumes/SSD128GB/Google Drive/Education/MDX BSc CS/Modules/7 - CST3170 - Artificial Intelligence/Courseworks/CW1/src/out/production/tsp tsp
+
+            TSP - Console Menu
+-------------------------------------------
+
+A: Load file
+B: Generate all permutations
+C: Solve TSP using Brute Force (exhaustive)
+D: Solve TSP using Best First Search (BeFS)
+E: Solve TSP using 2-Way Best First Search (BeFS)
+G: Solve TSP using Genetic Algorithm (GA)
+
+-------------------------------------------
+
+X: Exit
+
+Please make your choice:
+a
+Please enter the filename you wish to load:
+test2atsp.txt
+File test2atsp.txt has been loaded. 8 localities loaded.
+
+Time taken: 0.276183 seconds (276182794 nano seconds).
+
+Please make your choice:
+b
+5040 permutations generated.
+
+Time taken: 0.019779 seconds (19778030 nano seconds).
+
+Please make your choice:
+c
+Solution found!
+1 > 7 > 8 > 5 > 6 > 4 > 2 > 3 > 1 :: Total distance: 65.65395780324545
+
+Time taken: 230.889591 seconds (230889590069 nano seconds).
+
+Please make your choice:
+d
+1 >> 6 >> 4 >> 2 >> 3 >> 5 >> 7 >> 8 >> 1. Path found using Best First Search (Greedy Best Neighbour).
+Total distance: 66.9305981255446
+
+Time taken: 0.046691 seconds (46690791 nano seconds).
+
+Please make your choice:
+e
+1 >> 6 >> 3 >> 5 >> 8 >> 7 >> 2 >> 4 >> 1. Path found using 2-Way Best First Search (Greedy Best Neighbour).
+Total distance: 76.93875071024206
+
+Time taken: 0.157453 seconds (157452629 nano seconds).
+
+Please make your choice:
+x
+
+Process finished with exit code 0
+
+----------------------------------------------------------------------------------------------------
