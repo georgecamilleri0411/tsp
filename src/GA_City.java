@@ -3,6 +3,11 @@ public class GA_City {
 	int x;
 	int y;
 
+	public GA_City() {
+		this.x = (int) (Math.random() * 100);
+		this.y = (int) (Math.random() * 100);
+	}
+
 	public GA_City (int _x, int _y) {
 		this.x = _x;
 		this.y = _y;
@@ -22,7 +27,7 @@ public class GA_City {
 
 	@Override
 	public String toString() {
-		return getX() + ", " + getY();
+		return "x: " + getX() + ", y: " + getY();
 	}
 
 }

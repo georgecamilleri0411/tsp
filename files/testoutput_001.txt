@@ -112,3 +112,158 @@ x
 Process finished with exit code 0
 
 ----------------------------------------------------------------------------------------------------
+/Users/George/Library/Java/JavaVirtualMachines/openjdk-17.0.1/Contents/Home/bin/java -javaagent:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=53863:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Volumes/SSD128GB/Google Drive/Education/MDX BSc CS/Modules/7 - CST3170 - Artificial Intelligence/Courseworks/CW1/src/out/production/tsp tsp
+
+            TSP - Console Menu
+-------------------------------------------
+
+A: Load file
+B: Generate all permutations
+C: Solve TSP using Brute Force (exhaustive)
+D: Solve TSP using Best First Search (BeFS)
+E: Solve TSP using 2-Way Best First Search (BeFS)
+G: Solve TSP using Genetic Algorithm (GA)
+
+-------------------------------------------
+
+X: Exit
+
+Please make your choice:
+a
+Please enter the filename you wish to load:
+test3atsp.txt
+File test3atsp.txt has been loaded. 9 localities loaded.
+
+Time taken: 0.370371 seconds (370370475 nano seconds).
+
+Please make your choice:
+d
+1 >> 7 >> 2 >> 9 >> 5 >> 4 >> 3 >> 6 >> 8 >> 1. Path found using Best First Search (Greedy Best Neighbour).
+Total distance: 240.90737042335485
+
+Time taken: 0.04843 seconds (48429451 nano seconds).
+
+Please make your choice:
+e
+1 >> 7 >> 5 >> 4 >> 6 >> 8 >> 3 >> 9 >> 2 >> 1. Path found using 2-Way Best First Search (Greedy Best Neighbour).
+Total distance: 232.7800494920396
+
+Time taken: 0.175773 seconds (175772482 nano seconds).
+
+Please make your choice:
+x
+
+Process finished with exit code 0
+
+----------------------------------------------------------------------------------------------------
+/Users/George/Library/Java/JavaVirtualMachines/openjdk-17.0.1/Contents/Home/bin/java -javaagent:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=53870:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Volumes/SSD128GB/Google Drive/Education/MDX BSc CS/Modules/7 - CST3170 - Artificial Intelligence/Courseworks/CW1/src/out/production/tsp tsp
+
+            TSP - Console Menu
+-------------------------------------------
+
+A: Load file
+B: Generate all permutations
+C: Solve TSP using Brute Force (exhaustive)
+D: Solve TSP using Best First Search (BeFS)
+E: Solve TSP using 2-Way Best First Search (BeFS)
+G: Solve TSP using Genetic Algorithm (GA)
+
+-------------------------------------------
+
+X: Exit
+
+Please make your choice:
+a
+Please enter the filename you wish to load:
+test1tsp.txt
+File test1tsp.txt has been loaded. 4 localities loaded.
+
+Time taken: 0.115585 seconds (115584997 nano seconds).
+
+Please make your choice:
+g
+First population created. Best distance: 24.293023070189598
+Evolution of 15 generations ready.
+Best distance: 24.293023070189598
+
+Time taken: 13.268322 seconds (13268321108 nano seconds).
+
+Please make your choice:
+x
+
+Process finished with exit code 0
+
+----------------------------------------------------------------------------------------------------
+/Users/George/Library/Java/JavaVirtualMachines/openjdk-17.0.1/Contents/Home/bin/java -javaagent:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=53884:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Volumes/SSD128GB/Google Drive/Education/MDX BSc CS/Modules/7 - CST3170 - Artificial Intelligence/Courseworks/CW1/src/out/production/tsp tsp
+
+            TSP - Console Menu
+-------------------------------------------
+
+A: Load file
+B: Generate all permutations
+C: Solve TSP using Brute Force (exhaustive)
+D: Solve TSP using Best First Search (BeFS)
+E: Solve TSP using 2-Way Best First Search (BeFS)
+G: Solve TSP using Genetic Algorithm (GA)
+
+-------------------------------------------
+
+X: Exit
+
+Please make your choice:
+a
+Please enter the filename you wish to load:
+test2atsp.txt
+File test2atsp.txt has been loaded. 8 localities loaded.
+
+Time taken: 0.28699 seconds (286989829 nano seconds).
+
+Please make your choice:
+g
+First population created. Best distance: 76.92729289190883
+Evolution of 15 generations ready.
+Best distance: 65.65395780324546
+
+Time taken: 25.186809 seconds (25186808249 nano seconds).
+
+Please make your choice:
+x
+
+Process finished with exit code 0
+
+----------------------------------------------------------------------------------------------------
+/Users/George/Library/Java/JavaVirtualMachines/openjdk-17.0.1/Contents/Home/bin/java -javaagent:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=53889:/Users/George/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/213.5744.223/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Volumes/SSD128GB/Google Drive/Education/MDX BSc CS/Modules/7 - CST3170 - Artificial Intelligence/Courseworks/CW1/src/out/production/tsp tsp
+
+            TSP - Console Menu
+-------------------------------------------
+
+A: Load file
+B: Generate all permutations
+C: Solve TSP using Brute Force (exhaustive)
+D: Solve TSP using Best First Search (BeFS)
+E: Solve TSP using 2-Way Best First Search (BeFS)
+G: Solve TSP using Genetic Algorithm (GA)
+
+-------------------------------------------
+
+X: Exit
+
+Please make your choice:
+a
+Please enter the filename you wish to load:
+test3atsp.txt
+File test3atsp.txt has been loaded. 9 localities loaded.
+
+Time taken: 0.356033 seconds (356032918 nano seconds).
+
+Please make your choice:
+g
+First population created. Best distance: 318.4667785130572
+Evolution of 15 generations ready.
+Best distance: 229.5091665258346
+
+Time taken: 29.763883 seconds (29763882663 nano seconds).
+
+Please make your choice:
+
+----------------------------------------------------------------------------------------------------
