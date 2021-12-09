@@ -471,11 +471,27 @@ public class Utilities {
 			output[0] = s.get(0);
 			output[(output.length - 1)] = s.get((s.size() - 1));
 		} catch (Exception e) {
-			System.out.println("Utilities.getRandom - An error has occurred - " + e.getMessage());
+			System.out.println("Utilities.getMinMax - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			gc();
 			return output;
+		}
+	}
+
+	/*
+	Returns True if the value passed is numeric
+	 */
+	public static boolean isNumeric (String input) {
+		try {
+			int output = Integer.parseInt(input);
+			return true;
+		} catch (NumberFormatException ne) {
+			//System.out.println ("Utilities.isNumeric - A number format error has occurred - " + ne.getMessage());
+			return false;
+		} catch (Exception e) {
+			//System.out.println("Utilities.isNumeric - An error has occurred - " + e.getMessage());
+			return false;
 		}
 	}
 
