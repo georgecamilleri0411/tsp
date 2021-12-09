@@ -64,16 +64,6 @@ public class FileReader {
 			// Replace multiple spaces by a single space using Regex
 			dataLine = dataLine.replaceAll("^ +| +$|( )+", "$1");
 
-			/*
-			// Remove spaces at both ends of the string
-			dataLine = dataLine.trim();
-
-			// Loops through the string to replace multiple (2) spaces by a single space
-			while (dataLine.contains("  ")) {
-				dataLine = dataLine.replace("  ", " ");
-			}
-			 */
-
 			// Splits the string into a String array, then loops through it to populate the Integer array
 			String[] line = dataLine.split(" ");
 			int[] output = new int[line.length];

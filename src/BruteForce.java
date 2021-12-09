@@ -7,7 +7,6 @@ public class BruteForce {
 
 	private ArrayList<City> cityList = new ArrayList();
 	private ArrayList<Integer> _cityList = new ArrayList();
-	// ArrayLists to store the distances between each city. 2nd ArrayList stores a 'hash' to aid performance
 	public static ArrayList<Distance> distances = new ArrayList<>();
 	public static ArrayList<String> distancesHash = new ArrayList();
 

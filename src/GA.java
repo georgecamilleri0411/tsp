@@ -1,7 +1,5 @@
 public class GA {
 
-	// CHECK
-//	private static final double mutationRate = 0.015;
 	private static final double mutationRate = 0.025;
 	private static final int selectionTmentSize = 5;
 	private static final boolean useElitism = true;

@@ -13,7 +13,6 @@ public class Utilities {
 	public static ArrayList<String> distancesHash = new ArrayList();
 
 	// Array to store the different permutations
-//	public static int[][] permutations = new int[getNumOfPermutations(cities.size())][(getNumOfPermutations(cities.size()) + 1)];
 	public static int[][] permutations = new int[getNumOfPermutations(cities.size())][(cities.size() + 1)];
 
 	// Array of Double storing whole voyage
@@ -98,16 +97,7 @@ public class Utilities {
 			if (result != -1) {
 				return distances.get(result).getDistance();
 			}
-
-			/* This loops through the ArrayList
-			for (int d = 0; d < distances.size(); d++) {
-				if ((distances.get(d).getFromCity() == from) && distances.get(d).getToCity() == to) {
-					return distances.get(d).getDistance();
-				}
-			}
-			 */
 			return 0;
-
 		} catch (Exception e) {
 			System.out.println("Utilities.getDistance - An error has occurred - " + e.getMessage());
 			e.printStackTrace();
@@ -318,11 +308,6 @@ public class Utilities {
 						to = permutations[p][v];
 					 	voyageDistance[p] += getDistance(from, to);
 					}
-					/*
-					System.out.println ("Permutation: " + p + "." + v + " (from " + from + " to " + to
-							+ ") | Voyage distance: " + getDistance(from, to)
-							+ " | Total distance: " + voyageDistance[p]);
-					 */
 				}
 			}
 

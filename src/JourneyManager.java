@@ -2,9 +2,6 @@ import java.util.ArrayList;
 
 public class JourneyManager {
 
-	// CHECK
-//	private static ArrayList destinationCities = new ArrayList<GA_City>();
-
 	// ArrayList to store the list of cities and their properties
 	private static ArrayList<GA_City> destinationCities = new ArrayList<GA_City>();
 
@@ -19,8 +16,6 @@ public class JourneyManager {
 	Retrieves the city according to the index specified
 	 */
 	public static GA_City getGA_City(int index){
-		// CHECK
-//		return (GA_City)destinationCities.get(index);
 		return destinationCities.get(index);
 	}
 
